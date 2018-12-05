@@ -11,20 +11,27 @@ public class Pencil {
 
 	public String writeToPaper(String textFromPencil) {
 		String sendToPaper = "";
+		char currentCharacter;
 		
 		for (int i = 0; i < textFromPencil.length(); i++) {
-			if (Character.isWhitespace(textFromPencil.charAt(i))) {
-				sendToPaper += textFromPencil.charAt(i);
-			} else if (Character.isUpperCase(textFromPencil.charAt(i))) {
-				sendToPaper += textFromPencil.charAt(i);
+			currentCharacter = getCurrentCharacter(textFromPencil, i);
+			
+			if (Character.isWhitespace(currentCharacter)) {
+				sendToPaper += currentCharacter;
+			} else if (Character.isUpperCase(currentCharacter)) {
+				sendToPaper += currentCharacter;
 				currentPencilHealth -= 2;
 			} else {
-				sendToPaper += textFromPencil.charAt(i);
+				sendToPaper += currentCharacter;
 				currentPencilHealth--;
 			}
 		}
 
 		return sendToPaper;
+	}
+	
+	private char getCurrentCharacter(String text, int i) {
+		return text.charAt(i);
 	}
 	
 	public void sharpenPencil() {
@@ -33,7 +40,6 @@ public class Pencil {
 	}
 
 	public int getCurrentPencilHealth() {
-		// TODO Auto-generated method stub
 		return currentPencilHealth;
 	}
 	
