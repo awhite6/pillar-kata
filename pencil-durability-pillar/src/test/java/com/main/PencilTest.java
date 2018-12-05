@@ -25,6 +25,12 @@ public class PencilTest {
 		Assert.assertTrue(pencil.getCurrentPencilHealth() < pencilHealthAtFull);
 	}
 	
+	@Test 
+	public void can_pencil_write_when_it_has_no_health() {
+		pencil.setCurrentPencilHealth(3);
+		Assert.assertEquals("tes", pencil.writeToPaper("test"));
+	}
+	
 	@Test
 	public void do_uppercase_letters_subtract_two_points_from_health() {
 		pencil.writeToPaper("T");

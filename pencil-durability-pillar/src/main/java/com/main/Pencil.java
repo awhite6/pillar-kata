@@ -6,7 +6,7 @@ public class Pencil {
 	private int pencilLength = 5;
 	
 	public Pencil() {
-		setCurrentPencilHealth();
+		setCurrentPencilHealth(maxPencilHealth);
 	}
 
 	public String writeToPaper(String textFromPencil) {
@@ -16,14 +16,16 @@ public class Pencil {
 		for (int i = 0; i < textFromPencil.length(); i++) {
 			currentCharacter = getCurrentCharacter(textFromPencil, i);
 			
-			if (Character.isWhitespace(currentCharacter)) {
-				sendToPaper += currentCharacter;
-			} else if (Character.isUpperCase(currentCharacter)) {
-				sendToPaper += currentCharacter;
-				currentPencilHealth -= 2;
-			} else {
-				sendToPaper += currentCharacter;
-				currentPencilHealth--;
+			if (currentPencilHealth > 0) {
+				if (Character.isWhitespace(currentCharacter)) {
+					sendToPaper += currentCharacter;
+				} else if (Character.isUpperCase(currentCharacter)) {
+					sendToPaper += currentCharacter;
+					currentPencilHealth -= 2;
+				} else {
+					sendToPaper += currentCharacter;
+					currentPencilHealth--;
+				}
 			}
 		}
 
@@ -36,7 +38,7 @@ public class Pencil {
 	
 	public void sharpenPencil() {
 		if (pencilLength > 0) {
-			setCurrentPencilHealth();
+			setCurrentPencilHealth(maxPencilHealth);
 			pencilLength--;
 		}
 	}
@@ -45,8 +47,8 @@ public class Pencil {
 		return currentPencilHealth;
 	}
 	
-	public void setCurrentPencilHealth() {
-		this.currentPencilHealth = maxPencilHealth;
+	public void setCurrentPencilHealth(int health) {
+		this.currentPencilHealth = health;
 	}
 
 
