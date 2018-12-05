@@ -12,7 +12,9 @@ public class Pencil {
 		String sendToPaper = "";
 		
 		for (int i = 0; i < textFromPencil.length(); i++) {
-			if (Character.isUpperCase(textFromPencil.charAt(i))) {
+			if (Character.isWhitespace(textFromPencil.charAt(i))) {
+				sendToPaper += textFromPencil.charAt(i);
+			} else if (Character.isUpperCase(textFromPencil.charAt(i))) {
 				sendToPaper += textFromPencil.charAt(i);
 				currentPencilHealth -= 2;
 			} else {

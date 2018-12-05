@@ -31,4 +31,10 @@ public class PencilTest {
 		Assert.assertEquals(pencilHealthAtFull - 2, pencil.getCurrentPencilHealth());
 	}
 	
+	@Test
+	public void does_losing_health_ignore_white_space() {
+		pencil.writeToPaper("t t");
+		Assert.assertEquals(pencilHealthAtFull - 2, pencil.getCurrentPencilHealth());
+	}
+	
 }
