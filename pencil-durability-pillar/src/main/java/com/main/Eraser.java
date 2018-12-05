@@ -4,8 +4,7 @@ public class Eraser {
 
 	public String eraseWord(String wordToErase) {
 		String erasedWord = "";
-		char[] wordArray = wordToErase.toCharArray();
-		for (char c : wordArray) {
+		for (int i = 0; i < wordToErase.length(); i++) {
 			erasedWord += " ";
 		}
 		
