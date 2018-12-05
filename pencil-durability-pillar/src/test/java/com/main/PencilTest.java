@@ -37,4 +37,10 @@ public class PencilTest {
 		Assert.assertEquals(pencilHealthAtFull - 2, pencil.getCurrentPencilHealth());
 	}
 	
+	@Test
+	public void does_pencil_health_refill_when_sharpened() {
+		pencil.writeToPaper("This is a test for testing purposes!");
+		pencil.sharpenPencil();
+		Assert.assertEquals(pencilHealthAtFull, pencil.getCurrentPencilHealth());
+	}
 }

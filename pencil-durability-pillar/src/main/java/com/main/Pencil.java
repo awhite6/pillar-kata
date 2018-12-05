@@ -35,4 +35,8 @@ public class Pencil {
 		this.currentPencilHealth = maxPencilHealth;
 	}
 
+	public void sharpenPencil() {
+		setCurrentPencilHealth();
+	}
+
 }
