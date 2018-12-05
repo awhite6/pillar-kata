@@ -49,4 +49,16 @@ public class PencilTest {
 		pencil.sharpenPencil();
 		Assert.assertEquals(4, pencil.getPencilLength());
 	}
+	
+	@Test 
+	public void can_pencil_sharpen_when_length_is_zero() {
+		sharpenPencilMultipleTimes();
+		Assert.assertEquals(0, pencil.getPencilLength());
+	}
+	
+	private void sharpenPencilMultipleTimes() {
+		for (int i = 0; i < 9; i++) {
+			pencil.sharpenPencil();
+		}
+	}
 }

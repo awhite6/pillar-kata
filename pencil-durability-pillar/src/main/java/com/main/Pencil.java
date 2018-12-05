@@ -35,8 +35,10 @@ public class Pencil {
 	}
 	
 	public void sharpenPencil() {
-		setCurrentPencilHealth();
-		pencilLength--;
+		if (pencilLength > 0) {
+			setCurrentPencilHealth();
+			pencilLength--;
+		}
 	}
 
 	public int getCurrentPencilHealth() {
