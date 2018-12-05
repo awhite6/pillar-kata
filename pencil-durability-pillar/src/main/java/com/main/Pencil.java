@@ -3,6 +3,7 @@ package com.main;
 public class Pencil {
 	private int maxPencilHealth = 60;
 	private int currentPencilHealth;
+	private int pencilLength = 5;
 	
 	public Pencil() {
 		setCurrentPencilHealth();
@@ -25,6 +26,11 @@ public class Pencil {
 
 		return sendToPaper;
 	}
+	
+	public void sharpenPencil() {
+		setCurrentPencilHealth();
+		pencilLength--;
+	}
 
 	public int getCurrentPencilHealth() {
 		// TODO Auto-generated method stub
@@ -35,8 +41,9 @@ public class Pencil {
 		this.currentPencilHealth = maxPencilHealth;
 	}
 
-	public void sharpenPencil() {
-		setCurrentPencilHealth();
+
+	public int getPencilLength() {
+		return pencilLength;
 	}
 
 }

@@ -43,4 +43,10 @@ public class PencilTest {
 		pencil.sharpenPencil();
 		Assert.assertEquals(pencilHealthAtFull, pencil.getCurrentPencilHealth());
 	}
+	
+	@Test
+	public void does_sharpening_pencil_decrease_pencil_length() {
+		pencil.sharpenPencil();
+		Assert.assertEquals(4, pencil.getPencilLength());
+	}
 }
