@@ -11,7 +11,7 @@ public class Eraser {
 		String erasedWord = "";
 		for (int i = wordToErase.length() - 1; i >= 0; i--) {
 			if (currentEraserHealth > 0) {
-				erasedWord += " ";
+				erasedWord += " "; 
 				currentEraserHealth--;
 			} else {
 				erasedWord = wordToErase.charAt(i) + erasedWord;

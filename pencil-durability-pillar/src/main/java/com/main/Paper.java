@@ -36,8 +36,24 @@ public class Paper {
 		String[] arrayOfWords = wordsOnPage.split(" ");
 		
 		for (int i = arrayOfWords.length - 1; i >= 0; i--) {
-			if (arrayOfWords[i].equals(wordToReplace)) {
+			if (arrayOfWords[i].equalsIgnoreCase(wordToReplace)) {
 				arrayOfWords[i] = erasedWord;
+				break;
+			}
+		}
+
+		newWordsOnPage = String.join(" ", arrayOfWords);
+		return newWordsOnPage;
+	}
+
+
+	public String replaceWordWithNewWord(String newWord, String wordToReplace) {
+		String newWordsOnPage;
+		String[] arrayOfWords = wordsOnPage.split(" ");
+		
+		for (int i = arrayOfWords.length - 1; i >= 0; i--) {
+			if (arrayOfWords[i].equalsIgnoreCase(wordToReplace)) {
+				arrayOfWords[i] = newWord;
 				break;
 			}
 		}

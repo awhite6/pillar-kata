@@ -56,4 +56,9 @@ public class Pencil {
 		return pencilLength;
 	}
 
+	public String writeNewWord(String findWordForEraser) {
+		
+		return null;
+	}
+
 }
