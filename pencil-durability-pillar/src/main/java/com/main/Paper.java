@@ -7,6 +7,10 @@ public class Paper {
 		wordsOnPage = "";
 	}
 	
+	public String getWordsOnPage() {
+		return wordsOnPage;
+	}
+	
 
 	public void writeWordsToPaper(String textFromPencil) {
 		wordsOnPage += textFromPencil;
@@ -25,19 +29,13 @@ public class Paper {
 		return foundWord;
 	}
 	
-
-	public String getWordsOnPage() {
-		return wordsOnPage;
-	}
-
-
-	public String replaceWordWithErasedWord(String erasedWord, String wordToReplace) {
+	public String replaceWordWithNewOrErasedWord(String newOrErasedWord, String wordToReplace) {
 		String newWordsOnPage;
 		String[] arrayOfWords = wordsOnPage.split(" ");
 		
 		for (int i = arrayOfWords.length - 1; i >= 0; i--) {
 			if (arrayOfWords[i].equalsIgnoreCase(wordToReplace)) {
-				arrayOfWords[i] = erasedWord;
+				arrayOfWords[i] = newOrErasedWord;
 				break;
 			}
 		}
@@ -47,18 +45,18 @@ public class Paper {
 	}
 
 
-	public String replaceWordWithNewWord(String newWord, String wordToReplace) {
-		String newWordsOnPage;
-		String[] arrayOfWords = wordsOnPage.split(" ");
-		
-		for (int i = arrayOfWords.length - 1; i >= 0; i--) {
-			if (arrayOfWords[i].equalsIgnoreCase(wordToReplace)) {
-				arrayOfWords[i] = newWord;
-				break;
-			}
-		}
-
-		newWordsOnPage = String.join(" ", arrayOfWords);
-		return newWordsOnPage;
-	}
+//	public String replaceWordWithNewWord(String newWord, String wordToReplace) {
+//		String newWordsOnPage;
+//		String[] arrayOfWords = wordsOnPage.split(" ");
+//		
+//		for (int i = arrayOfWords.length - 1; i >= 0; i--) {
+//			if (arrayOfWords[i].equalsIgnoreCase(wordToReplace)) {
+//				arrayOfWords[i] = newWord;
+//				break;
+//			}
+//		}
+//
+//		newWordsOnPage = String.join(" ", arrayOfWords);
+//		return newWordsOnPage;
+//	}
 }
