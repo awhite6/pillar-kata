@@ -12,7 +12,7 @@ public class PaperTest {
 	
 	@Before 
 	public void setup() {
-		paper = new Paper();
+		paper = new Paper(); 
 		pencil = new Pencil();
 		eraser = new Eraser();
 	}
@@ -24,7 +24,7 @@ public class PaperTest {
 	}
 	
 	@Test
-	public void testing_finding_word_to_erase() {
+	public void testing_finding_word_to_erase_or_replace() {
 		paper.writeWordsToPaper(testText);
 		Assert.assertEquals("test", paper.findWordForEraser("test"));
 	}
@@ -42,4 +42,9 @@ public class PaperTest {
 		Assert.assertEquals("test this is dog a thing", paper.replaceWordWithNewOrErasedWord("dog", "test"));
 	}
 	
+	@Test
+	public void test_collision_between_replaced_word_and_preexisting_words() {
+		paper.writeWordsToPaper(testText);
+		Assert.assertEquals("test moond@s test a thing", paper.replaceWordWithNewOrErasedWord("moondo", "this"));
+	}
 }
