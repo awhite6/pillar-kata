@@ -7,12 +7,26 @@ public class Paper {
 		wordsOnPage = "";
 	}
 	
-	public String getWordsOnPage() {
-		
-		return wordsOnPage;
-	}
 
-	public void writeWordsToPage(String textFromPencil) {
+	public void writeWordsToPaper(String textFromPencil) {
 		wordsOnPage += textFromPencil;
+	}
+	
+	public String findWordForEraser(String wordToErase) {
+		String[] arrayOfWords = wordsOnPage.split(" ");
+		String foundWord = "";
+		for (int i = arrayOfWords.length - 1; i >= 0; i--) {
+			if (arrayOfWords[i].equals(wordToErase)) {
+				foundWord = arrayOfWords[i];
+				break;
+			}
+		}
+		
+		return foundWord;
+	}
+	
+
+	public String getWordsOnPage() {
+		return wordsOnPage;
 	}
 }
