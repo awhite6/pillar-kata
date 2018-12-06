@@ -8,9 +8,9 @@ public class Pencil {
 	public Pencil() {
 		setCurrentPencilHealth(maxPencilHealth);
 		setPencilLength();
-	} 
+	}  
 
-	public String writeToPaper(String textFromPencil) {
+	public String write(String textFromPencil) {
 		String sendToPaper = "";
 		char currentCharacter;
 		

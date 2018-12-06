@@ -15,7 +15,7 @@ public class Paper {
 	}
 	 
 
-	public void writeWordsToPaper(String textFromPencil) {
+	public void writeWordsOnPaper(String textFromPencil) {
 		wordsOnPage += textFromPencil;
 	}
 	

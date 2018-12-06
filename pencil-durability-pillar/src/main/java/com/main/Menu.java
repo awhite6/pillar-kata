@@ -14,6 +14,9 @@ public class Menu {
 		this.in = new Scanner(input);
 	}
 	
+	public String getUserInput() {
+		return in.nextLine();
+	}
 	
 	public Object getChoiceFromOptions(Object[] options) {
 		Object choice = null;
@@ -49,5 +52,10 @@ public class Menu {
 			out.println("\n*** "+userInput+" is not a valid option ***\n");
 		}
 		return choice;
+	}
+
+
+	public void displayWelcom(String mainMenuWelcome) {
+			out.println(mainMenuWelcome);
 	}
 }
