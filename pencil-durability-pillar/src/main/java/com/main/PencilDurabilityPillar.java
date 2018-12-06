@@ -10,9 +10,10 @@ public class PencilDurabilityPillar {
 	private static final String WRITE_TO_PAPER = "Write something on the paper";
 	private static final String ERASE_A_WORD = "Erase a word from the paper";
 	private static final String SHARPEN_PENCIL = "Sharpen your pencil";
+	private static final String GET_NEW_PENCIL = "Get a new pencil";
 	private static final String READ_PAPER = "Read whats written on the paper";
 	private static final String GO_BACK = "Go back to the previous menu";
-	private static final String[] PAPER_MENU_OPTIONS = { WRITE_TO_PAPER, ERASE_A_WORD, SHARPEN_PENCIL, READ_PAPER, GO_BACK };
+	private static final String[] PAPER_MENU_OPTIONS = { WRITE_TO_PAPER, ERASE_A_WORD, SHARPEN_PENCIL, GET_NEW_PENCIL, READ_PAPER, GO_BACK };
 	
 	private Menu menu;
 	private Paper paper;
@@ -25,13 +26,14 @@ public class PencilDurabilityPillar {
 	
 	public void run() {
 		while (true) {
-			menu.displayWelcom(MAIN_MENU_WELCOME);
+			menu.displayMessage(MAIN_MENU_WELCOME);
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 			
 			if (choice.equals(GET_NEW_PIECE_OF_PAPER)) {
 				paper = new Paper();
 				pencil = new Pencil();
 				eraser = new Eraser();
+				
 				while (true) {
 					choice = (String) menu.getChoiceFromOptions(PAPER_MENU_OPTIONS);
 					if (choice.equals(WRITE_TO_PAPER)) {
@@ -41,8 +43,11 @@ public class PencilDurabilityPillar {
 						System.out.println("erase from that paper boy");
 					} else if (choice.equals(SHARPEN_PENCIL)) {
 						pencil.sharpenPencil();
+					} else if (choice.equals(GET_NEW_PENCIL)) {
+						pencil = new Pencil();
+						eraser = new Eraser();
 					} else if (choice.equals(READ_PAPER)) {
-						System.out.println(paper.getWordsOnPage());
+						menu.displayMessage(paper.getWordsOnPage());
 					} else if (choice.equals(GO_BACK)) {
 						break;
 					}
