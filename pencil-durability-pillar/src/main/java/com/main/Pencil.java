@@ -3,10 +3,11 @@ package com.main;
 public class Pencil {
 	private int maxPencilHealth = 60;
 	private int currentPencilHealth;
-	private int pencilLength = 5;
+	private int pencilLength;
 	
 	public Pencil() {
 		setCurrentPencilHealth(maxPencilHealth);
+		setPencilLength();
 	} 
 
 	public String writeToPaper(String textFromPencil) {
@@ -55,10 +56,9 @@ public class Pencil {
 	public int getPencilLength() {
 		return pencilLength;
 	}
-
-	public String writeNewWord(String findWordForEraser) {
-		
-		return null;
+	
+	private void setPencilLength() {
+		pencilLength = (int) (Math.random() * 5);
 	}
 
 }

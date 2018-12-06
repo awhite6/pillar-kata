@@ -7,11 +7,13 @@ import org.junit.Test;
 public class PencilTest {
 	Pencil pencil;
 	int pencilHealthAtFull;
+	int pencilAtFullLength;
 	
 	@Before
-	public void setup() {
+	public void setup() { 
 		pencil = new Pencil();
 		pencilHealthAtFull = pencil.getCurrentPencilHealth();
+		pencilAtFullLength = pencil.getPencilLength();
 	}
 	
 	@Test
@@ -59,13 +61,18 @@ public class PencilTest {
 	@Test
 	public void does_sharpening_pencil_decrease_pencil_length() {
 		pencil.sharpenPencil();
-		Assert.assertEquals(4, pencil.getPencilLength());
+		Assert.assertEquals(pencilAtFullLength - 1, pencil.getPencilLength());
 	}
 	
 	@Test 
 	public void can_pencil_sharpen_when_length_is_zero() {
 		sharpenPencilMultipleTimes();
 		Assert.assertEquals(0, pencil.getPencilLength());
+	}
+	
+	@Test 
+	public void does_pencil_have_length_when_created() {
+		Assert.assertTrue(pencil.getPencilLength() > 0);
 	}
 	
 	private void sharpenPencilMultipleTimes() {
