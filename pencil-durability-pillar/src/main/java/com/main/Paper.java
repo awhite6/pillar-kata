@@ -29,4 +29,20 @@ public class Paper {
 	public String getWordsOnPage() {
 		return wordsOnPage;
 	}
+
+
+	public String replaceWordWithErasedWord(String erasedWord, String wordToReplace) {
+		String newWordsOnPage;
+		String[] arrayOfWords = wordsOnPage.split(" ");
+		
+		for (int i = arrayOfWords.length - 1; i >= 0; i--) {
+			if (arrayOfWords[i].equals(wordToReplace)) {
+				arrayOfWords[i] = erasedWord;
+				break;
+			}
+		}
+
+		newWordsOnPage = String.join(" ", arrayOfWords);
+		return newWordsOnPage;
+	}
 }

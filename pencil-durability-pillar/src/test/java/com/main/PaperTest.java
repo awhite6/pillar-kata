@@ -8,7 +8,7 @@ public class PaperTest {
 	Paper paper;
 	Pencil pencil;
 	Eraser eraser;
-	String testText = "Test this is test a thing";
+	String testText = "test this is test a thing";
 	
 	@Before 
 	public void setup() {
@@ -27,6 +27,12 @@ public class PaperTest {
 	public void testing_finding_word_to_erase() {
 		paper.writeWordsToPaper(testText);
 		Assert.assertEquals("test", paper.findWordForEraser("test"));
+	}
+	
+	@Test
+	public void can_paper_replace_a_word_with_an_erased_word() {
+		paper.writeWordsToPaper(testText);
+		Assert.assertEquals("test this is      a thing", paper.replaceWordWithErasedWord(eraser.eraseWord(paper.findWordForEraser("test")), "test"));
 	}
 	
 }
