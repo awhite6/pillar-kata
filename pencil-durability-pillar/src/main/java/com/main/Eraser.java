@@ -13,6 +13,8 @@ public class Eraser {
 			if (currentEraserHealth > 0) {
 				erasedWord += " ";
 				currentEraserHealth--;
+			} else {
+				erasedWord = wordToErase.charAt(i) + erasedWord;
 			}
 		}
 		

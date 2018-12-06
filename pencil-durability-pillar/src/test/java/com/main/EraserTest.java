@@ -29,9 +29,15 @@ public class EraserTest {
 	}
 	
 	@Test
-	public void eraser_cant_erase_when_health_is_zero() {
+	public void test_eraser_cant_erase_when_health_is_zero() {
 		eraser.setCurrentEraserHealth(0);
 		eraser.eraseWord(testString);
 		Assert.assertEquals(0, eraser.getCurrentEraserHealth());
+	}
+	
+	@Test
+	public void test_eraser_stops_erasing_when_health_hits_zero() {
+		eraser.setCurrentEraserHealth(3);
+		Assert.assertEquals("t   ", eraser.eraseWord("test"));
 	}
 }
