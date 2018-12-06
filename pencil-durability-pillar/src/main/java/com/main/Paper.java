@@ -1,5 +1,8 @@
 package com.main;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Paper {
 	private String wordsOnPage;
 	
@@ -32,35 +35,82 @@ public class Paper {
 	public String replaceWordWithNewOrErasedWord(String newOrErasedWord, String wordToReplace) {
 		String newWordsOnPage;
 		String[] arrayOfWords = wordsOnPage.split(" ");
+		String[] newArray;
+		List<String> listOfWordsOnPage = new ArrayList<String>();
+		for (String s : arrayOfWords) {
+			listOfWordsOnPage.add(s);
+		}
 		
 		for (int i = arrayOfWords.length - 1; i >= 0; i--) {
-			if (arrayOfWords[i].equalsIgnoreCase(wordToReplace)) { 
+			if (listOfWordsOnPage.get(i).equalsIgnoreCase(wordToReplace)) { 
 				if (wordToReplace.length() < newOrErasedWord.length()) {
-					String newWordToReplace = arrayOfWords[i] + " " + arrayOfWords[i+1];
+					String newWordToReplace = listOfWordsOnPage.get(i);
 					String constructedCollisionWord = "";
+					int numberOfWordsAdded = 0;
 					int j = 0;
-					for (; j < arrayOfWords[i].length(); j++) {
-						if (newWordToReplace.charAt(j) == arrayOfWords[i].charAt(j)) {
-							constructedCollisionWord += newOrErasedWord.charAt(j);
-						}
-
-					}
 					int k = -1;
-					for (; j < newWordToReplace.length(); j++ ) {
+					
+					while (numberOfWordsAdded > -1) {
 						
-						if (k >= 0 && newOrErasedWord.length() > j && (arrayOfWords[i+1].charAt(k) != ' ')) {
-							constructedCollisionWord += "@";
-	
-						} else if (newOrErasedWord.length() > j) {
-							constructedCollisionWord += newOrErasedWord.charAt(j);
-						} else {
-							constructedCollisionWord += newWordToReplace.charAt(j);
+						if (numberOfWordsAdded == 0) {
+							for (; j < listOfWordsOnPage.get(i).length(); j++) {
+								if (newWordToReplace.charAt(j) == listOfWordsOnPage.get(i).charAt(j)) {
+									constructedCollisionWord += newOrErasedWord.charAt(j);
+								}
+							}
+						} else {			
+							for (; j < newWordToReplace.length(); j++ ) {
+								
+								if (k >= 0 && newOrErasedWord.length() > j && (listOfWordsOnPage.get(i+numberOfWordsAdded).charAt(k) != ' ')) {
+									constructedCollisionWord += "@";
+			
+								} else if (newOrErasedWord.length() > j) {
+									constructedCollisionWord += newOrErasedWord.charAt(j);
+								} else {
+									constructedCollisionWord += newWordToReplace.charAt(j);
+								}
+								k++;
+							}	
 						}
-						
-						k++;
+						if (newOrErasedWord.length() > newWordToReplace.length()) {
+							numberOfWordsAdded++;
+							newWordToReplace += (" " + listOfWordsOnPage.get(i + numberOfWordsAdded));
+							continue;
+						} else {
+							break;
+						}
 					}
-					arrayOfWords[i] = constructedCollisionWord;
-					arrayOfWords[i+1] = "";
+//					int k = 1;
+//					while (newOrErasedWord.length() > newWordToReplace.length()) {
+//						newWordToReplace += (" " + listOfWordsOnPage.get(i + k));
+//						k++;
+//					}
+//					
+//					int j = 0;
+//					for (; j < listOfWordsOnPage.get(i).length(); j++) {
+//						if (newWordToReplace.charAt(j) == listOfWordsOnPage.get(i).charAt(j)) {
+//							constructedCollisionWord += newOrErasedWord.charAt(j);
+//						}
+//
+//					}
+//					k = -1;
+//					for (; j < newWordToReplace.length(); j++ ) {
+//						
+//						if (k >= 0 && newOrErasedWord.length() > j && (listOfWordsOnPage.get(i+1).charAt(k) != ' ')) {
+//							constructedCollisionWord += "@";
+//	
+//						} else if (newOrErasedWord.length() > j) {
+//							constructedCollisionWord += newOrErasedWord.charAt(j);
+//						} else {
+//							constructedCollisionWord += newWordToReplace.charAt(j);
+//						}
+//						
+//						k++;
+//					}
+					listOfWordsOnPage.add(i, constructedCollisionWord);
+					for (int y = 0; y <= numberOfWordsAdded; y++) {
+						listOfWordsOnPage.remove(i+1);
+					}
 					break;
 					
 				} else {
@@ -69,8 +119,14 @@ public class Paper {
 				}
 			}
 		}
- 
-		newWordsOnPage = String.join(" ", arrayOfWords);
+
+		newArray = new String[listOfWordsOnPage.size()];
+		
+		for (int i = 0; i < newArray.length; i++) {
+			newArray[i] = listOfWordsOnPage.get(i);
+		}
+		
+		newWordsOnPage = String.join(" ", newArray);
 		return newWordsOnPage;
 	}
 

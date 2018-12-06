@@ -45,6 +45,6 @@ public class PaperTest {
 	@Test
 	public void test_collision_between_replaced_word_and_preexisting_words() {
 		paper.writeWordsToPaper(testText);
-		Assert.assertEquals("test moond@s test a thing", paper.replaceWordWithNewOrErasedWord("moondo", "this"));
+		Assert.assertEquals("test moond@s test a thing", paper.replaceWordWithNewOrErasedWord("chickenwing", "this"));
 	}
 }
