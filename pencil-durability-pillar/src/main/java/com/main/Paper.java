@@ -43,15 +43,16 @@ public class Paper {
 		
 		for (int i = arrayOfWords.length - 1; i >= 0; i--) {
 			if (listOfWordsOnPage.get(i).equalsIgnoreCase(wordToReplace)) { 
+				
 				if (wordToReplace.length() < newOrErasedWord.length()) {
 					String newWordToReplace = listOfWordsOnPage.get(i);
 					String constructedCollisionWord = "";
 					int numberOfWordsAdded = 0;
 					int j = 0;
-					int k = -1;
 					
 					while (numberOfWordsAdded > -1) {
-						
+						int k = -1;
+
 						if (numberOfWordsAdded == 0) {
 							for (; j < listOfWordsOnPage.get(i).length(); j++) {
 								if (newWordToReplace.charAt(j) == listOfWordsOnPage.get(i).charAt(j)) {
@@ -114,7 +115,8 @@ public class Paper {
 					break;
 					
 				} else {
-					arrayOfWords[i] = newOrErasedWord;
+					listOfWordsOnPage.add(i, newOrErasedWord);
+					listOfWordsOnPage.remove(i + 1);
 					break;
 				}
 			}
