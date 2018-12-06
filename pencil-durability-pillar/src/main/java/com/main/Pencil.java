@@ -7,7 +7,7 @@ public class Pencil {
 	
 	public Pencil() {
 		setCurrentPencilHealth(maxPencilHealth);
-	}
+	} 
 
 	public String writeToPaper(String textFromPencil) {
 		String sendToPaper = "";

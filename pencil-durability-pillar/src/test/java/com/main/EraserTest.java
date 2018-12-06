@@ -25,7 +25,7 @@ public class EraserTest {
 	@Test
 	public void does_eraser_lose_health_as_it_erases() {
 		eraser.eraseWord(testString);
-		Assert.assertTrue(eraser.getCurrentEraserHealth() < eraserAtFullHealth);
+		Assert.assertEquals(24, eraser.getCurrentEraserHealth());
 	}
 	
 	@Test

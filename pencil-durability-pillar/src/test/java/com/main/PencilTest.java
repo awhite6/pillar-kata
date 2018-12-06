@@ -22,7 +22,7 @@ public class PencilTest {
 	@Test
 	public void does_pencil_lose_health_as_it_writes() {
 		pencil.writeToPaper("test");
-		Assert.assertTrue(pencil.getCurrentPencilHealth() < pencilHealthAtFull);
+		Assert.assertEquals(pencilHealthAtFull - 4,  pencil.getCurrentPencilHealth());
 	}
 	
 	@Test 
