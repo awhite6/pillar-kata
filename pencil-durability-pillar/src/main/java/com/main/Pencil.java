@@ -17,20 +17,48 @@ public class Pencil {
 		for (int i = 0; i < userInput.length(); i++) {
 			currentCharacter = getCurrentCharacter(userInput, i);
 			
-			if (currentPencilHealth > 0) {
-				if (Character.isWhitespace(currentCharacter)) {
+			if (canPencilWrite()) {
+				
+				if (isCharacterWhiteSpace(currentCharacter)) {
 					sendToPaper += currentCharacter;
-				} else if (Character.isUpperCase(currentCharacter)) {
+					
+				} else if (isCharacterUpperCase(currentCharacter)) {
 					sendToPaper += currentCharacter;
 					currentPencilHealth -= 2;
+					
 				} else {
 					sendToPaper += currentCharacter;
 					currentPencilHealth--;
+					
 				}
 			}
 		}
 
 		return sendToPaper;
+	}
+	
+	private boolean canPencilWrite() {
+		if (currentPencilHealth > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private boolean isCharacterWhiteSpace(char currentCharacter) {
+		if (Character.isWhitespace(currentCharacter)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private boolean isCharacterUpperCase(char currentCharacter) {
+		if (Character.isUpperCase(currentCharacter)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	private char getCurrentCharacter(String text, int i) {
@@ -61,5 +89,4 @@ public class Pencil {
 		double length = (Math.random() * 5)  + 1;
 		pencilLength = (int) length;
 	}
-
 }
