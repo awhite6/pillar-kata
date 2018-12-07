@@ -152,6 +152,24 @@ public class Paper {
 		return indexCount;
 	}
 
+	public void writeOverErasedWhiteSpace(String wordToInsert, int whiteSpaceIndex) {
+		List<String> listOfWordsOnPage = new ArrayList<String>();
+		String[] words = wordsOnPage.split(" ");
+		for (int i = 0; i < words.length; i++) {
+			if (words[i].equals("")) {
+				continue;
+			} else {
+				listOfWordsOnPage.add(words[i]);
+			}
+		}
+		
+		listOfWordsOnPage.add(whiteSpaceIndex, wordToInsert);
+		wordsOnPage = "";
+		for (String s : listOfWordsOnPage) {
+			wordsOnPage = wordsOnPage + s + " ";
+		}
+	}
+
 
 //	public String replaceWordWithNewWord(String newWord, String wordToReplace) {
 //		String newWordsOnPage;

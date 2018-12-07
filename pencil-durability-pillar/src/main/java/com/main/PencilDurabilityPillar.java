@@ -51,7 +51,8 @@ public class PencilDurabilityPillar {
 				if (choice.equals(LEAVE_BLANK)) {
 					paper.replaceWordWithNewOrErasedWord(eraser.eraseWord(eraseThis), eraseThis);
 				} else if (choice.equals(REPLACE_WORD)) {
-					System.out.println("DO THIS");
+					System.out.println("please enter a word");
+					paper.replaceWordWithNewOrErasedWord(menu.getUserInput(), eraseThis);
 				}
 				
 			} else if (choice.equals(SHARPEN_PENCIL)) {

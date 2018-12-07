@@ -57,4 +57,12 @@ public class PaperTest {
 		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("test"), "test");
 		Assert.assertEquals(3, paper.findWhiteSpaceIndexToWriteOver());
 	}
+	
+	@Test
+	public void write_over_preexisting_white_space() {
+		paper.writeWordsOnPaper(testText);
+		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("this"), "this");
+		paper.writeOverErasedWhiteSpace("dog", paper.findWhiteSpaceIndexToWriteOver());
+		Assert.assertEquals("test dog is test a thing ", paper.getWordsOnPage());
+	}
 }
