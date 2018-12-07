@@ -75,7 +75,10 @@ public class PaperTest {
 	}
 	
 	@Test
-	public void writing_over_erased_white_space_still_collides_with_preexising_words() {
-		
+	public void writing_over_erased_white_space_collides_with_preexising_words() {
+		paper.writeWordsOnPaper(testText);
+		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("this"), "this");
+		paper.writeOverErasedWhiteSpace("donkey kong ", paper.findWhiteSpaceIndexToWriteOver());
+		Assert.assertEquals("test donke@@k@@@@ a thing", paper.getWordsOnPage());
 	}
 }

@@ -19,18 +19,6 @@ public class Paper {
 		wordsOnPage += textFromPencil;
 	}
 	
-//	public String findWordForEraser(String wordToErase) {
-//		String[] arrayOfWords = wordsOnPage.split(" ");
-//		String foundWord = "";
-//		for (int i = arrayOfWords.length - 1; i >= 0; i--) {
-//			if (arrayOfWords[i].equals(wordToErase)) {
-//				foundWord = arrayOfWords[i];
-//				break;
-//			}
-//		}
-//		
-//		return foundWord;
-//	}
 	
 	public void replaceWordWithNewOrErasedWord(String newOrErasedWord, String wordToReplace) {
 		String newWordsOnPage;
@@ -163,19 +151,50 @@ public class Paper {
 	public void writeOverErasedWhiteSpace(String wordToInsert, int whiteSpaceIndex) {
 		List<String> listOfWordsOnPage = new ArrayList<String>();
 		String[] words = wordsOnPage.split(" ");
+		String wordToBeReplaced = "";
+		String newWord = "";
+		int whiteSpaceCount = 0;
+		int iterator = 0;
+		int j = 0;
+
+		
 		for (int i = 0; i < words.length; i++) {
 			if (words[i].equals("")) {
+				whiteSpaceCount++;
+				wordToBeReplaced += " ";
+				
 				continue;
 			} else {
 				listOfWordsOnPage.add(words[i]);
 			}
 		}
 		
-		listOfWordsOnPage.add(whiteSpaceIndex, wordToInsert);
-		wordsOnPage = "";
-		for (String s : listOfWordsOnPage) {
-			wordsOnPage = wordsOnPage + s + " ";
+		while (true) {
+			if (wordToInsert.length() > wordToBeReplaced.length()) {
+				wordToBeReplaced += listOfWordsOnPage.get(whiteSpaceIndex + iterator) + " ";
+				iterator++;
+			} else {
+				break;
+			}
 		}
+		
+		while (j < wordToInsert.length()) {
+			if (wordToBeReplaced.charAt(j) != ' ') {
+				newWord += "@";
+			} else {
+				newWord += wordToInsert.charAt(j);
+			}
+			j++;
+		}
+		
+		for (int i = 0; i < iterator; i++) {
+			listOfWordsOnPage.remove(whiteSpaceIndex);
+		}
+		
+		listOfWordsOnPage.add(whiteSpaceIndex, newWord);
+		
+		wordsOnPage = String.join(" ", listOfWordsOnPage);
+		
 	}
 
 }
