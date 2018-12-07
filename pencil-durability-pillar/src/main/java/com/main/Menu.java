@@ -56,6 +56,7 @@ public class Menu {
 
 
 	public void displayMessage(String mainMenuWelcome) {
-			out.println(mainMenuWelcome);
+		out.println();
+		out.println(mainMenuWelcome);
 	}
 }

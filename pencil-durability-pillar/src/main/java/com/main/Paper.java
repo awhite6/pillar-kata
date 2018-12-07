@@ -32,7 +32,7 @@ public class Paper {
 		return foundWord;
 	}
 	
-	public String replaceWordWithNewOrErasedWord(String newOrErasedWord, String wordToReplace) {
+	public void replaceWordWithNewOrErasedWord(String newOrErasedWord, String wordToReplace) {
 		String newWordsOnPage;
 		String[] arrayOfWords = wordsOnPage.split(" ");
 		String[] newArray;
@@ -81,6 +81,7 @@ public class Paper {
 							break;
 						}
 					}
+					
 //					int k = 1;
 //					while (newOrErasedWord.length() > newWordToReplace.length()) {
 //						newWordToReplace += (" " + listOfWordsOnPage.get(i + k));
@@ -108,6 +109,7 @@ public class Paper {
 //						
 //						k++;
 //					}
+					
 					listOfWordsOnPage.add(i, constructedCollisionWord);
 					for (int y = 0; y <= numberOfWordsAdded; y++) {
 						listOfWordsOnPage.remove(i+1);
@@ -129,7 +131,7 @@ public class Paper {
 		}
 		
 		newWordsOnPage = String.join(" ", newArray);
-		return newWordsOnPage;
+		wordsOnPage = newWordsOnPage;
 	}
 
 

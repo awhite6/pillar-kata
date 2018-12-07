@@ -9,6 +9,7 @@ public class PaperTest {
 	Pencil pencil;
 	Eraser eraser;
 	String testText = "test this is test a thing";
+	String newWords;
 	
 	@Before 
 	public void setup() {
@@ -32,20 +33,21 @@ public class PaperTest {
 	@Test
 	public void can_paper_replace_a_word_with_an_erased_word() {
 		paper.writeWordsOnPaper(testText + ". blah blah chandler is the mandler");
-		Assert.assertEquals("test this is      a thing. blah blah chandler is the mandler", paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("test"), "test"));
-		Assert.assertEquals("test this is test a thing. blah      chandler is the mandler", paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("blah"), "blah"));
+		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("test"), "test");
+		Assert.assertEquals("test this is      a thing. blah blah chandler is the mandler", paper.getWordsOnPage());
 	}
 	
 	@Test
 	public void can_replace_word_with_new_word() {
 		paper.writeWordsOnPaper(testText);
-		Assert.assertEquals("test this is dog a thing", paper.replaceWordWithNewOrErasedWord("dog", "test"));
+		paper.replaceWordWithNewOrErasedWord("dog",  "test");
+		Assert.assertEquals("test this is dog a thing", paper.getWordsOnPage());
 	}
 	
 	@Test
 	public void test_collision_between_replaced_word_and_preexisting_words() {
 		paper.writeWordsOnPaper(testText);
-		Assert.assertEquals("test moond@s test a thing", paper.replaceWordWithNewOrErasedWord("moondo", "this"));
-		Assert.assertEquals("test chick@@ @@@@ a thing", paper.replaceWordWithNewOrErasedWord("chicken wing", "this"));
+		paper.replaceWordWithNewOrErasedWord("chicken wing", "this");
+		Assert.assertEquals("test chick@@ @@@@ a thing", paper.getWordsOnPage());
 	}
 }
