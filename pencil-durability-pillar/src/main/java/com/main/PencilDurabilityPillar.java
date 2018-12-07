@@ -56,6 +56,11 @@ public class PencilDurabilityPillar {
 		paper.writeWordsOnPaper(pencil.write(menu.getUserInput()));
 	}
 	
+	private void fillInPreviouslyErasedSpot(Menu menu, Paper paper, Pencil pencil) {
+		menu.displayMessage(ENTER_WORD);
+		paper.writeOverErasedWhiteSpace(pencil.write(menu.getUserInput()), paper.findWhiteSpaceIndexToWriteOver());
+	}
+	
 	private void displayPaperMenu(String choice) {
 		paper = new Paper();
 		pencil = new Pencil();
@@ -71,8 +76,9 @@ public class PencilDurabilityPillar {
 				eraseWord(menu, paper, choice);
 
 			} else if (choice.equals(FILL_IN_WHITE_SPACE)) {
-				menu.displayMessage(ENTER_WORD);
-				paper.writeOverErasedWhiteSpace(pencil.write(menu.getUserInput()), paper.findWhiteSpaceIndexToWriteOver());
+				fillInPreviouslyErasedSpot(menu, paper, pencil);
+//				menu.displayMessage(ENTER_WORD);
+//				paper.writeOverErasedWhiteSpace(pencil.write(menu.getUserInput()), paper.findWhiteSpaceIndexToWriteOver());
 				
 			} else if (choice.equals(SHARPEN_PENCIL)) {
 				pencil.sharpenPencil();
