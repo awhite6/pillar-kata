@@ -65,34 +65,66 @@ public class PencilDurabilityPillar {
 		paper = new Paper();
 		pencil = new Pencil();
 		eraser = new Eraser();
+		boolean whileTrue = true;
 		
-		while (true) {
+		while (whileTrue) {
 			choice = (String) menu.getChoiceFromOptions(PAPER_MENU_OPTIONS);
 			
-			if (choice.equals(WRITE_TO_PAPER)) {
-				writeToPaper(menu, paper);
+			switch (choice) {
+			
+				case WRITE_TO_PAPER:
+					writeToPaper(menu, paper);
+					break;
+					
+				case ERASE_A_WORD:
+					eraseWord(menu, paper, choice);
+					break;
 				
-			} else if (choice.equals(ERASE_A_WORD)) {
-				eraseWord(menu, paper, choice);
-
-			} else if (choice.equals(FILL_IN_WHITE_SPACE)) {
-				fillInPreviouslyErasedSpot(menu, paper, pencil);
-//				menu.displayMessage(ENTER_WORD);
-//				paper.writeOverErasedWhiteSpace(pencil.write(menu.getUserInput()), paper.findWhiteSpaceIndexToWriteOver());
+				case FILL_IN_WHITE_SPACE:
+					fillInPreviouslyErasedSpot(menu, paper, pencil);
+					break;
+					
+				case SHARPEN_PENCIL:
+					pencil.sharpenPencil();
+					break;
 				
-			} else if (choice.equals(SHARPEN_PENCIL)) {
-				pencil.sharpenPencil();
+				case GET_NEW_PENCIL:
+					pencil = new Pencil();
+					eraser = new Eraser();
+					break;
 				
-			} else if (choice.equals(GET_NEW_PENCIL)) {
-				pencil = new Pencil();
-				eraser = new Eraser();
-				
-			} else if (choice.equals(READ_PAPER)) {
-				menu.displayMessage(paper.getWordsOnPage());
-				
-			} else if (choice.equals(GO_BACK)) {
-				break;
+				case READ_PAPER:
+					menu.displayMessage(paper.getWordsOnPage());
+					break;
+					
+				case GO_BACK:
+					whileTrue = false;
+					break;
 			}
+			
+//			if (choice.equals(WRITE_TO_PAPER)) {
+//				writeToPaper(menu, paper);
+//				
+//			} else if (choice.equals(ERASE_A_WORD)) {
+//				eraseWord(menu, paper, choice);
+//
+//			} else if (choice.equals(FILL_IN_WHITE_SPACE)) {
+//				fillInPreviouslyErasedSpot(menu, paper, pencil);
+//
+//				
+//			} else if (choice.equals(SHARPEN_PENCIL)) {
+//				pencil.sharpenPencil();
+//				
+//			} else if (choice.equals(GET_NEW_PENCIL)) {
+//				pencil = new Pencil();
+//				eraser = new Eraser();
+//				
+//			} else if (choice.equals(READ_PAPER)) {
+//				menu.displayMessage(paper.getWordsOnPage());
+//				
+//			} else if (choice.equals(GO_BACK)) {
+//				break;
+//			}
 		}
 	}
 

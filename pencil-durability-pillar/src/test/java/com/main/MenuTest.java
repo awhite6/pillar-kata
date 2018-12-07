@@ -15,7 +15,7 @@ public class MenuTest {
 	public void setup() {
 		output = new ByteArrayOutputStream();
 		menu = getMenuForTesting();
-	}
+	} 
 	
 	@Test
 	public void display_menu_options_and_prompts_user_to_make_choice() {

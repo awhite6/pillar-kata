@@ -58,5 +58,6 @@ public class Menu {
 	public void displayMessage(String message) {
 		out.println();
 		out.println(message);
+		out.flush();
 	}
 }

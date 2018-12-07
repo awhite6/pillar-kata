@@ -10,12 +10,12 @@ public class Pencil {
 		setPencilLength();
 	}  
 
-	public String write(String textFromPencil) {
+	public String write(String userInput) {
 		String sendToPaper = "";
 		char currentCharacter;
 		
-		for (int i = 0; i < textFromPencil.length(); i++) {
-			currentCharacter = getCurrentCharacter(textFromPencil, i);
+		for (int i = 0; i < userInput.length(); i++) {
+			currentCharacter = getCurrentCharacter(userInput, i);
 			
 			if (currentPencilHealth > 0) {
 				if (Character.isWhitespace(currentCharacter)) {
