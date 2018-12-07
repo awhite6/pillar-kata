@@ -19,18 +19,18 @@ public class Paper {
 		wordsOnPage += textFromPencil;
 	}
 	
-	public String findWordForEraser(String wordToErase) {
-		String[] arrayOfWords = wordsOnPage.split(" ");
-		String foundWord = "";
-		for (int i = arrayOfWords.length - 1; i >= 0; i--) {
-			if (arrayOfWords[i].equals(wordToErase)) {
-				foundWord = arrayOfWords[i];
-				break;
-			}
-		}
-		
-		return foundWord;
-	}
+//	public String findWordForEraser(String wordToErase) {
+//		String[] arrayOfWords = wordsOnPage.split(" ");
+//		String foundWord = "";
+//		for (int i = arrayOfWords.length - 1; i >= 0; i--) {
+//			if (arrayOfWords[i].equals(wordToErase)) {
+//				foundWord = arrayOfWords[i];
+//				break;
+//			}
+//		}
+//		
+//		return foundWord;
+//	}
 	
 	public void replaceWordWithNewOrErasedWord(String newOrErasedWord, String wordToReplace) {
 		String newWordsOnPage;
@@ -42,6 +42,7 @@ public class Paper {
 		}
 		
 		for (int i = arrayOfWords.length - 1; i >= 0; i--) {
+			
 			if (listOfWordsOnPage.get(i).equalsIgnoreCase(wordToReplace)) { 
 				
 				if (wordToReplace.length() < newOrErasedWord.length()) {
@@ -74,9 +75,16 @@ public class Paper {
 							}	
 						}
 						if (newOrErasedWord.length() > newWordToReplace.length()) {
-							numberOfWordsAdded++;
-							newWordToReplace += (" " + listOfWordsOnPage.get(i + numberOfWordsAdded));
-							continue;
+							if (listOfWordsOnPage.get(i+numberOfWordsAdded) == listOfWordsOnPage.get(listOfWordsOnPage.size()-1)) {
+								for (; j < newOrErasedWord.length(); j++) {
+									constructedCollisionWord += newOrErasedWord.charAt(j);
+								}
+								break;
+							} else {
+								numberOfWordsAdded++;
+								newWordToReplace += (" " + listOfWordsOnPage.get(i + numberOfWordsAdded));
+								continue;
+							}
 						} else {
 							break;
 						}
@@ -170,19 +178,4 @@ public class Paper {
 		}
 	}
 
-
-//	public String replaceWordWithNewWord(String newWord, String wordToReplace) {
-//		String newWordsOnPage;
-//		String[] arrayOfWords = wordsOnPage.split(" ");
-//		
-//		for (int i = arrayOfWords.length - 1; i >= 0; i--) {
-//			if (arrayOfWords[i].equalsIgnoreCase(wordToReplace)) {
-//				arrayOfWords[i] = newWord;
-//				break;
-//			}
-//		}
-//
-//		newWordsOnPage = String.join(" ", arrayOfWords);
-//		return newWordsOnPage;
-//	}
 }

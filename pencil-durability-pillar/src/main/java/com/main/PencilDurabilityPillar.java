@@ -9,11 +9,12 @@ public class PencilDurabilityPillar {
 	
 	private static final String WRITE_TO_PAPER = "Write something on the paper";
 	private static final String ERASE_A_WORD = "Erase a word from the paper";
+	private static final String FILL_IN_WHITE_SPACE = "Write over the last erased space";
 	private static final String SHARPEN_PENCIL = "Sharpen your pencil";
 	private static final String GET_NEW_PENCIL = "Get a new pencil";
 	private static final String READ_PAPER = "Read whats written on the paper";
 	private static final String GO_BACK = "Go back to the previous menu";
-	private static final String[] PAPER_MENU_OPTIONS = { WRITE_TO_PAPER, ERASE_A_WORD, SHARPEN_PENCIL, GET_NEW_PENCIL, READ_PAPER, GO_BACK };
+	private static final String[] PAPER_MENU_OPTIONS = { WRITE_TO_PAPER, ERASE_A_WORD, FILL_IN_WHITE_SPACE, SHARPEN_PENCIL, GET_NEW_PENCIL, READ_PAPER, GO_BACK };
 	
 	private static final String LEAVE_BLANK = "Leave the word erased";
 	private static final String REPLACE_WORD = "Replace the word with a new one";
@@ -41,6 +42,7 @@ public class PencilDurabilityPillar {
 				paper.writeWordsOnPaper(pencil.write(menu.getUserInput()));
 				
 			} else if (choice.equals(ERASE_A_WORD)) {
+				
 				System.out.println("erase from that paper boy");
 				System.out.println("please enter a word you would like to erase");
 				
@@ -54,6 +56,10 @@ public class PencilDurabilityPillar {
 					System.out.println("please enter a word");
 					paper.replaceWordWithNewOrErasedWord(menu.getUserInput(), eraseThis);
 				}
+				
+			} else if (choice.equals(FILL_IN_WHITE_SPACE)) {
+				System.out.println("please enter a word");
+				paper.writeOverErasedWhiteSpace(pencil.write(menu.getUserInput()), paper.findWhiteSpaceIndexToWriteOver());
 				
 			} else if (choice.equals(SHARPEN_PENCIL)) {
 				pencil.sharpenPencil();
@@ -70,7 +76,6 @@ public class PencilDurabilityPillar {
 			}
 		}
 	}
-	
 
 	public void run() {
 		while (true) {
