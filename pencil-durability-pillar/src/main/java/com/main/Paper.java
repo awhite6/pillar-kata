@@ -11,7 +11,7 @@ public class Paper {
 	}
 	
 	public String getWordsOnPage() {
-		return wordsOnPage;
+		return wordsOnPage; 
 	}
 	 
 
@@ -121,25 +121,60 @@ public class Paper {
 	}
 
 	public void writeOverErasedWhiteSpace(String wordToInsert, int whiteSpaceIndex) {
-		List<String> listOfWordsOnPage = new ArrayList<String>();
-		String[] words = wordsOnPage.split(" ");
-		String wordToBeReplaced = "";
+		PageData data =  new PageData();
+		String[] wordsOnPageArray = wordsOnPage.split(" ");
 		String newWord = "";
-		int whiteSpaceCount = 0;
-		int iterator = 0;
-		int j = 0;
 
+		int iterator = 0;
+
+		data = createNewListOfWordsForPage(wordsOnPageArray);
+		List<String> listOfWordsOnPage = data.getListOfWordsOnPage();
+		String wordToBeReplaced = data.getWordToReplace();
+		
+		data = addToWordToBeReplaced(wordToInsert, wordToBeReplaced, iterator, whiteSpaceIndex, listOfWordsOnPage);
+		wordToBeReplaced = data.getWordToReplace();
+		iterator = data.getIterator();
+		
+		newWord = generateNewWord(wordToBeReplaced, wordToInsert, iterator);
+
+		removeWhiteSpaceFromList(listOfWordsOnPage, iterator, whiteSpaceIndex);
+
+		addNewWordToList(listOfWordsOnPage, newWord, whiteSpaceIndex);
+		
+		wordsOnPage = generateNewWordsOnPage(listOfWordsOnPage);
+		
+	}
+	
+	private String generateNewWordsOnPage(List<String> listOfWordsOnPage) {
+		
+		return String.join(" ", listOfWordsOnPage);
+	}
+	
+	private PageData createNewListOfWordsForPage(String words[]) {
+		PageData data = new PageData();
+		String wordToBeReplaced = data.getWordToReplace();
+		List<String> listOfWords = new ArrayList<String>();
 		
 		for (int i = 0; i < words.length; i++) {
 			if (words[i].equals("")) {
-				whiteSpaceCount++;
+//				whiteSpaceCount++;
 				wordToBeReplaced += " ";
 				
 				continue;
 			} else {
-				listOfWordsOnPage.add(words[i]);
+				listOfWords.add(words[i]);
 			}
 		}
+		
+		data.setListOfWordsOnPage(listOfWords);
+		data.setWordToReplace(wordToBeReplaced);
+		
+		return data;
+		
+	}
+	
+	private PageData addToWordToBeReplaced(String wordToInsert, String wordToBeReplaced, int iterator, int whiteSpaceIndex, List<String> listOfWordsOnPage) {
+		PageData data = new PageData();
 		
 		while (true) {
 			if (wordToInsert.length() >= wordToBeReplaced.length()) {
@@ -153,6 +188,16 @@ public class Paper {
 				break;
 			}
 		}
+		
+		data.setWordToReplace(wordToBeReplaced);
+		data.setIterator(iterator);
+		return data;
+		
+	}
+	
+	private String generateNewWord(String wordToBeReplaced, String wordToInsert, int iterator) {
+		String newWord = "";
+		int j = 0;
 		
 		if (iterator > 0) {
 			while (j < wordToBeReplaced.length()) {
@@ -172,14 +217,17 @@ public class Paper {
 			}
 		}
 		
+		return newWord;
+	}
+
+	private void removeWhiteSpaceFromList(List<String> listOfWordsOnPage, int iterator, int whiteSpaceIndex) {
 		for (int i = 0; i < iterator; i++) {
 			listOfWordsOnPage.remove(whiteSpaceIndex);
 		}
-		
-		listOfWordsOnPage.add(whiteSpaceIndex, newWord);
-		
-		wordsOnPage = String.join(" ", listOfWordsOnPage);
-		
 	}
 
+	private void addNewWordToList(List<String> listOfWordsOnPage, String newWord, int whiteSpaceIndex) {
+		listOfWordsOnPage.add(whiteSpaceIndex, newWord);
+	}
+	
 }
