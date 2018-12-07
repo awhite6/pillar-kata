@@ -134,6 +134,24 @@ public class Paper {
 		wordsOnPage = newWordsOnPage;
 	}
 
+	public int findWhiteSpaceIndexToWriteOver() {
+		char[] charactersOnPage = wordsOnPage.toCharArray();
+		int indexCount = 0;
+		for (int i = 0; i < charactersOnPage.length; i++) {
+			if (charactersOnPage[i] == ' ' && charactersOnPage[i+1] == ' ') {
+				indexCount++;
+				break;
+			} else if (charactersOnPage[i] == ' ') {
+				indexCount++;
+				continue;
+			} else {
+				continue;
+			}
+		}
+		
+		return indexCount;
+	}
+
 
 //	public String replaceWordWithNewWord(String newWord, String wordToReplace) {
 //		String newWordsOnPage;
