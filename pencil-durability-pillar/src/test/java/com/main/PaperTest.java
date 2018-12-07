@@ -14,13 +14,12 @@ public class PaperTest {
 	@Before 
 	public void setup() {
 		paper = new Paper(); 
-		pencil = new Pencil();
 		eraser = new Eraser();
 	}
 	
 	@Test
 	public void can_paper_write_text_from_pencil() {
-		paper.writeWordsOnPaper(pencil.write("test"));
+		paper.writeWordsOnPaper("test");
 		Assert.assertEquals(4, paper.getWordsOnPage().length());
 	}
 	
@@ -71,14 +70,23 @@ public class PaperTest {
 		paper.writeWordsOnPaper(testText);
 		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("this"), "this");
 		paper.writeOverErasedWhiteSpace("dog", paper.findWhiteSpaceIndexToWriteOver());
-		Assert.assertEquals("test dog is test a thing ", paper.getWordsOnPage());
+		Assert.assertEquals("test dog is test a thing", paper.getWordsOnPage());
 	}
+	
 	
 	@Test
 	public void writing_over_erased_white_space_collides_with_preexising_words() {
 		paper.writeWordsOnPaper(testText);
 		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("this"), "this");
-		paper.writeOverErasedWhiteSpace("donkey kong ", paper.findWhiteSpaceIndexToWriteOver());
-		Assert.assertEquals("test donke@@k@@@@ a thing", paper.getWordsOnPage());
+		paper.writeOverErasedWhiteSpace("donkey kong", paper.findWhiteSpaceIndexToWriteOver());
+		Assert.assertEquals("test donke@@k@@@t a thing", paper.getWordsOnPage());
+	}
+	
+	@Test
+	public void writing_over_white_space_can_extend_beyond_original_erased_white_space() {
+		paper.writeWordsOnPaper(testText);
+		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("this"), "this");
+		paper.writeOverErasedWhiteSpace("banjo", paper.findWhiteSpaceIndexToWriteOver());	
+		Assert.assertEquals("test banjois test a thing", paper.getWordsOnPage());
 	}
 }

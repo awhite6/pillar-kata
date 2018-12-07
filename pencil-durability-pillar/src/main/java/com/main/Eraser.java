@@ -12,7 +12,7 @@ public class Eraser {
 		for (int i = wordToErase.length() - 1; i >= 0; i--) {
 			if (currentEraserHealth > 0) {
 				erasedWord += " "; 
-				currentEraserHealth--;
+				currentEraserHealth--; 
 			} else {
 				erasedWord = wordToErase.charAt(i) + erasedWord;
 			}

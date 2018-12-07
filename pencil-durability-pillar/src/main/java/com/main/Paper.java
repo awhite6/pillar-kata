@@ -78,34 +78,6 @@ public class Paper {
 						}
 					}
 					
-//					int k = 1;
-//					while (newOrErasedWord.length() > newWordToReplace.length()) {
-//						newWordToReplace += (" " + listOfWordsOnPage.get(i + k));
-//						k++;
-//					}
-//					
-//					int j = 0;
-//					for (; j < listOfWordsOnPage.get(i).length(); j++) {
-//						if (newWordToReplace.charAt(j) == listOfWordsOnPage.get(i).charAt(j)) {
-//							constructedCollisionWord += newOrErasedWord.charAt(j);
-//						}
-//
-//					}
-//					k = -1;
-//					for (; j < newWordToReplace.length(); j++ ) {
-//						
-//						if (k >= 0 && newOrErasedWord.length() > j && (listOfWordsOnPage.get(i+1).charAt(k) != ' ')) {
-//							constructedCollisionWord += "@";
-//	
-//						} else if (newOrErasedWord.length() > j) {
-//							constructedCollisionWord += newOrErasedWord.charAt(j);
-//						} else {
-//							constructedCollisionWord += newWordToReplace.charAt(j);
-//						}
-//						
-//						k++;
-//					}
-					
 					listOfWordsOnPage.add(i, constructedCollisionWord);
 					for (int y = 0; y <= numberOfWordsAdded; y++) {
 						listOfWordsOnPage.remove(i+1);
@@ -170,21 +142,34 @@ public class Paper {
 		}
 		
 		while (true) {
-			if (wordToInsert.length() > wordToBeReplaced.length()) {
-				wordToBeReplaced += listOfWordsOnPage.get(whiteSpaceIndex + iterator) + " ";
+			if (wordToInsert.length() >= wordToBeReplaced.length()) {
+				if (iterator == 0) {
+					wordToBeReplaced += listOfWordsOnPage.get(whiteSpaceIndex + iterator);
+				} else {
+					wordToBeReplaced += " " + listOfWordsOnPage.get(whiteSpaceIndex + iterator);
+				}
 				iterator++;
 			} else {
 				break;
 			}
 		}
 		
-		while (j < wordToInsert.length()) {
-			if (wordToBeReplaced.charAt(j) != ' ') {
-				newWord += "@";
-			} else {
-				newWord += wordToInsert.charAt(j);
+		if (iterator > 0) {
+			while (j < wordToBeReplaced.length()) {
+				if (wordToBeReplaced.charAt(j) != ' ' && wordToInsert.length() > j) {
+					newWord += "@";
+				} else if (wordToInsert.length() > j){
+					newWord += wordToInsert.charAt(j);
+				} else {
+					newWord += wordToBeReplaced.charAt(j);
+				}
+				j++;
 			}
-			j++;
+		} else {
+			while (j < wordToInsert.length()) {
+				newWord += wordToInsert.charAt(j);
+				j++;
+			}
 		}
 		
 		for (int i = 0; i < iterator; i++) {
