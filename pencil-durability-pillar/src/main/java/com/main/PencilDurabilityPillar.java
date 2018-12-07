@@ -51,6 +51,11 @@ public class PencilDurabilityPillar {
 		}
 	}
 	
+	private void writeToPaper(Menu menu, Paper paper) {
+		menu.displayMessage(WRITE_TO_PAPER_INSTRUCTIONS);
+		paper.writeWordsOnPaper(pencil.write(menu.getUserInput()));
+	}
+	
 	private void displayPaperMenu(String choice) {
 		paper = new Paper();
 		pencil = new Pencil();
@@ -60,27 +65,11 @@ public class PencilDurabilityPillar {
 			choice = (String) menu.getChoiceFromOptions(PAPER_MENU_OPTIONS);
 			
 			if (choice.equals(WRITE_TO_PAPER)) {
-				menu.displayMessage(WRITE_TO_PAPER_INSTRUCTIONS);
-				paper.writeWordsOnPaper(pencil.write(menu.getUserInput()));
+				writeToPaper(menu, paper);
 				
 			} else if (choice.equals(ERASE_A_WORD)) {
-//				
 				eraseWord(menu, paper, choice);
-//				menu.displayMessage(ERASE_WORD_INSTRUCTIONS);
-//				
-//				String eraseThis = menu.getUserInput();
-//				
-//				menu.displayMessage(LEAVE_BLANK_OR_REPLACE_WORD);
-//				choice = (String) menu.getChoiceFromOptions(ERASER_OPTIONS);
-//				
-//				if (choice.equals(LEAVE_BLANK)) {
-//					paper.replaceWordWithNewOrErasedWord(eraser.eraseWord(eraseThis), eraseThis);
-//					
-//				} else if (choice.equals(REPLACE_WORD)) {
-//					menu.displayMessage(ENTER_WORD);
-//					paper.replaceWordWithNewOrErasedWord(menu.getUserInput(), eraseThis);
-//				}
-				
+
 			} else if (choice.equals(FILL_IN_WHITE_SPACE)) {
 				menu.displayMessage(ENTER_WORD);
 				paper.writeOverErasedWhiteSpace(pencil.write(menu.getUserInput()), paper.findWhiteSpaceIndexToWriteOver());
