@@ -10,7 +10,7 @@ public class PencilDurabilityPillar {
 	private static final String WRITE_TO_PAPER = "Write something on the paper";
 	private static final String ERASE_A_WORD = "Erase a word from the paper";
 	private static final String FILL_IN_WHITE_SPACE = "Write over the last erased space";
-	private static final String SHARPEN_PENCIL = "Sharpen your pencil";
+	private static final String SHARPEN_PENCIL = "Sharpen your pencil"; 
 	private static final String GET_NEW_PENCIL = "Get a new pencil";
 	private static final String READ_PAPER = "Read whats written on the paper";
 	private static final String GO_BACK = "Go back to the previous menu";
@@ -20,6 +20,11 @@ public class PencilDurabilityPillar {
 	private static final String REPLACE_WORD = "Replace the word with a new one";
 	private static final String[] ERASER_OPTIONS = { LEAVE_BLANK, REPLACE_WORD };
 	
+	private static final String ENTER_WORD = "Please enter a word";
+	private static final String WRITE_TO_PAPER_INSTRUCTIONS = "Please type what you would like to write to the paper";
+	private static final String ERASE_WORD_INSTRUCTIONS = "Please enter a word you'd like to erase";
+	private static final String LEAVE_BLANK_OR_REPLACE_WORD = "would you like to leave blank or replace the word?";
+	
 	private Menu menu;
 	private Paper paper;
 	private Pencil pencil;
@@ -27,6 +32,23 @@ public class PencilDurabilityPillar {
 	
 	public PencilDurabilityPillar(Menu menu) {
 		this.menu = menu;
+	}
+	
+	private void eraseWord(Menu menu, Paper paper, String choice) {
+		menu.displayMessage(ERASE_WORD_INSTRUCTIONS);
+		
+		String eraseThis = menu.getUserInput();
+		
+		menu.displayMessage(LEAVE_BLANK_OR_REPLACE_WORD);
+		choice = (String) menu.getChoiceFromOptions(ERASER_OPTIONS);
+		
+		if (choice.equals(LEAVE_BLANK)) {
+			paper.replaceWordWithNewOrErasedWord(eraser.eraseWord(eraseThis), eraseThis);
+			
+		} else if (choice.equals(REPLACE_WORD)) {
+			menu.displayMessage(ENTER_WORD);
+			paper.replaceWordWithNewOrErasedWord(menu.getUserInput(), eraseThis);
+		}
 	}
 	
 	private void displayPaperMenu(String choice) {
@@ -38,27 +60,29 @@ public class PencilDurabilityPillar {
 			choice = (String) menu.getChoiceFromOptions(PAPER_MENU_OPTIONS);
 			
 			if (choice.equals(WRITE_TO_PAPER)) {
-				System.out.println("please type what you would like to write to the paper");
+				menu.displayMessage(WRITE_TO_PAPER_INSTRUCTIONS);
 				paper.writeWordsOnPaper(pencil.write(menu.getUserInput()));
 				
 			} else if (choice.equals(ERASE_A_WORD)) {
-				
-				System.out.println("erase from that paper boy");
-				System.out.println("please enter a word you would like to erase");
-				
-				String eraseThis = menu.getUserInput();
-				
-				System.out.println("would you like to leave blank or replace the word?");
-				choice = (String) menu.getChoiceFromOptions(ERASER_OPTIONS);
-				if (choice.equals(LEAVE_BLANK)) {
-					paper.replaceWordWithNewOrErasedWord(eraser.eraseWord(eraseThis), eraseThis);
-				} else if (choice.equals(REPLACE_WORD)) {
-					System.out.println("please enter a word");
-					paper.replaceWordWithNewOrErasedWord(menu.getUserInput(), eraseThis);
-				}
+//				
+				eraseWord(menu, paper, choice);
+//				menu.displayMessage(ERASE_WORD_INSTRUCTIONS);
+//				
+//				String eraseThis = menu.getUserInput();
+//				
+//				menu.displayMessage(LEAVE_BLANK_OR_REPLACE_WORD);
+//				choice = (String) menu.getChoiceFromOptions(ERASER_OPTIONS);
+//				
+//				if (choice.equals(LEAVE_BLANK)) {
+//					paper.replaceWordWithNewOrErasedWord(eraser.eraseWord(eraseThis), eraseThis);
+//					
+//				} else if (choice.equals(REPLACE_WORD)) {
+//					menu.displayMessage(ENTER_WORD);
+//					paper.replaceWordWithNewOrErasedWord(menu.getUserInput(), eraseThis);
+//				}
 				
 			} else if (choice.equals(FILL_IN_WHITE_SPACE)) {
-				System.out.println("please enter a word");
+				menu.displayMessage(ENTER_WORD);
 				paper.writeOverErasedWhiteSpace(pencil.write(menu.getUserInput()), paper.findWhiteSpaceIndexToWriteOver());
 				
 			} else if (choice.equals(SHARPEN_PENCIL)) {

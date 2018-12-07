@@ -19,7 +19,7 @@ public class Menu {
 	}
 	
 	public Object getChoiceFromOptions(Object[] options) {
-		Object choice = null;
+		Object choice = null; 
 		while(choice == null) {
 			displayMenuOptions(options);
 			choice = getChoiceFromUserInput(options);
@@ -55,8 +55,8 @@ public class Menu {
 	}
 
 
-	public void displayMessage(String mainMenuWelcome) {
+	public void displayMessage(String message) {
 		out.println();
-		out.println(mainMenuWelcome);
+		out.println(message);
 	}
 }

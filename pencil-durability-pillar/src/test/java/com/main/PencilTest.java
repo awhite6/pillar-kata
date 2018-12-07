@@ -12,7 +12,7 @@ public class PencilTest {
 	@Before
 	public void setup() {  
 		pencil = new Pencil();
-		pencilHealthAtFull = pencil.getCurrentPencilHealth();
+		pencilHealthAtFull = pencil.getCurrentPencilHealth(); 
 		pencilAtFullLength = pencil.getPencilLength();
 	}
 	

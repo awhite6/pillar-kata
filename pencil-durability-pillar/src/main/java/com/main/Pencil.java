@@ -6,7 +6,7 @@ public class Pencil {
 	private int pencilLength;
 	
 	public Pencil() {
-		setCurrentPencilHealth(maxPencilHealth);
+		setCurrentPencilHealth(maxPencilHealth); 
 		setPencilLength();
 	}  
 
@@ -58,7 +58,8 @@ public class Pencil {
 	}
 	
 	private void setPencilLength() {
-		pencilLength = (int) (Math.random() * 5);
+		double length = (Math.random() * 5)  + 1;
+		pencilLength = (int) length;
 	}
 
 }
