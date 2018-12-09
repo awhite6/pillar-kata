@@ -11,7 +11,7 @@ public class PencilDurabilityPillar {
 	private static final String ERASE_A_WORD = "Erase a word from the paper";
 	private static final String FILL_IN_WHITE_SPACE = "Write over the last erased space";
 	private static final String SHARPEN_PENCIL = "Sharpen your pencil"; 
-	private static final String GET_NEW_PENCIL = "Get a new pencil";
+	private static final String GET_NEW_PENCIL = "Get a new pencil"; 
 	private static final String READ_PAPER = "Read whats written on the paper";
 	private static final String GO_BACK = "Go back to the previous menu";
 	private static final String[] PAPER_MENU_OPTIONS = { WRITE_TO_PAPER, ERASE_A_WORD, FILL_IN_WHITE_SPACE, SHARPEN_PENCIL, GET_NEW_PENCIL, READ_PAPER, GO_BACK };
@@ -101,30 +101,6 @@ public class PencilDurabilityPillar {
 					whileTrue = false;
 					break;
 			}
-			
-//			if (choice.equals(WRITE_TO_PAPER)) {
-//				writeToPaper(menu, paper);
-//				
-//			} else if (choice.equals(ERASE_A_WORD)) {
-//				eraseWord(menu, paper, choice);
-//
-//			} else if (choice.equals(FILL_IN_WHITE_SPACE)) {
-//				fillInPreviouslyErasedSpot(menu, paper, pencil);
-//
-//				
-//			} else if (choice.equals(SHARPEN_PENCIL)) {
-//				pencil.sharpenPencil();
-//				
-//			} else if (choice.equals(GET_NEW_PENCIL)) {
-//				pencil = new Pencil();
-//				eraser = new Eraser();
-//				
-//			} else if (choice.equals(READ_PAPER)) {
-//				menu.displayMessage(paper.getWordsOnPage());
-//				
-//			} else if (choice.equals(GO_BACK)) {
-//				break;
-//			}
 		}
 	}
 
