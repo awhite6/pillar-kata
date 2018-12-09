@@ -10,7 +10,7 @@ public class Eraser {
 	public String eraseWord(String wordToErase) {
 		String erasedWord = "";
 		for (int i = wordToErase.length() - 1; i >= 0; i--) {
-			if (currentEraserHealth > 0) {
+			if (currentEraserHealth > 0) { 
 				erasedWord += " "; 
 				currentEraserHealth--; 
 			} else {

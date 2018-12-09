@@ -15,7 +15,7 @@ public class EraserTest {
 		eraser = new Eraser();
 		testString = "This is a test for testing purposes!";
 		eraserAtFullHealth = eraser.getCurrentEraserHealth();
-	}
+	} 
 	
 	@Test
 	public void can_eraser_erase_words() {
@@ -37,7 +37,7 @@ public class EraserTest {
 	
 	@Test
 	public void test_eraser_stops_erasing_when_health_hits_zero() {
-		eraser.setCurrentEraserHealth(3);
+		eraser.setCurrentEraserHealth(3); 
 		Assert.assertEquals("t   ", eraser.eraseWord("test"));
 	}
 }

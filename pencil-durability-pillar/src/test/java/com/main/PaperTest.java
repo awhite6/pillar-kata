@@ -23,14 +23,8 @@ public class PaperTest {
 		Assert.assertEquals(4, paper.getWordsOnPage().length());
 	}
 	
-//	@Test
-//	public void testing_finding_word_to_erase_or_replace() {
-//		paper.writeWordsOnPaper(testText);
-//		Assert.assertEquals("test", paper.findWordForEraser("test"));
-//	}
-	
 	@Test
-	public void can_paper_replace_a_word_with_an_erased_word() {
+	public void can_paper_erase_a_word() {
 		paper.writeWordsOnPaper(testText + ". blah blah chandler is the mandler");
 		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("test"), "test");
 		Assert.assertEquals("test this is      a thing. blah blah chandler is the mandler", paper.getWordsOnPage());
@@ -47,7 +41,6 @@ public class PaperTest {
 	public void can_replace_word_with_word_bigger_than_total_paper_string() {
 		paper.writeWordsOnPaper(testText);
 		paper.replaceWordWithNewOrErasedWord("banjo kazooie my dude", "test");
-		//paper.writeOverErasedWhiteSpace("banjo kazooie", paper.findWhiteSpaceIndexToWriteOver());
 		Assert.assertEquals("test this is banjo@k@@@@@e my dude", paper.getWordsOnPage());
 	}
 	
@@ -89,4 +82,13 @@ public class PaperTest {
 		paper.writeOverErasedWhiteSpace("banjo", paper.findWhiteSpaceIndexToWriteOver());	
 		Assert.assertEquals("test banjois test a thing", paper.getWordsOnPage());
 	}
-}
+	
+	@Test
+	public void can_multiple_words_be_erased_from_paper() {
+		paper.writeWordsOnPaper(testText);
+		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("this"), "this");
+		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("test"), "test");
+		
+		Assert.assertEquals("test      is      a thing", paper.getWordsOnPage());
+	}
+} 

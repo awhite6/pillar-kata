@@ -43,7 +43,15 @@ public class PageData {
 	public void setArrayOfWords(String[] arrayOfWords) {
 		this.arrayOfWords = arrayOfWords;
 	}
-
+	
+	public void setArrayOfWords(List<String> arrayOfWords) {
+		this.arrayOfWords = new String[arrayOfWords.size()];
+		
+		for (int i = 0; i < this.arrayOfWords.length; i++) {
+			this.arrayOfWords[i] = arrayOfWords.get(i);
+		}
+	}
+   
 	public String[] getNewArray() {
 		return newArray;
 	}

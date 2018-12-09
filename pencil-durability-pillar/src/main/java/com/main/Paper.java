@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Paper {
 	private String wordsOnPage;
+	private List<String> arrayOfWords = new ArrayList<String>();
 	
 	public Paper() {
 		wordsOnPage = "";
@@ -42,7 +43,13 @@ public class Paper {
 		List<String> listOfWordsOnPage;
 		
 		pageData.setNewOrErasedWord(newOrErasedWord);
-		pageData.setArrayOfWords(wordsOnPage.split(" "));
+		
+		if (arrayOfWords.size() == 0) {
+			pageData.setArrayOfWords(wordsOnPage.split(" "));
+		} else {
+			pageData.setArrayOfWords(arrayOfWords);
+		}
+		
 		pageData.setWordToReplace(wordToReplace);
 		
 		initializeListOfWordsForPage(pageData); 
@@ -51,6 +58,11 @@ public class Paper {
 		newArray = createArrayFromList(listOfWordsOnPage);
 
 		newWordsOnPage = String.join(" ", newArray);
+		
+		for (String s : newArray) {
+			arrayOfWords.add(s);
+		}
+				
 		wordsOnPage = newWordsOnPage;
 	}
 	
@@ -126,11 +138,11 @@ public class Paper {
 			if (words[i].equals("")) {
 				wordToBeReplaced += " ";
 				continue;
-				
-			} else {
+				  
+			} else {  
 				listOfWords.add(words[i]);
 			}
-		}
+		}   
 		
 		pageData.setListOfWordsOnPage(listOfWords);
 		pageData.setWordToReplace(wordToBeReplaced);	
@@ -272,7 +284,6 @@ public class Paper {
 		return pageData.getConstructedCollisionWord();
 	}
 
-
 	private void setupToAddToNewWordOnPage(PageData pageData) {
 		int numberOfWordsAdded = pageData.getNumberOfWordsAdded();
 		
@@ -319,7 +330,7 @@ public class Paper {
 		
 		List<String> listOfWordsOnPage = pageData.getListOfWordsOnPage();
 		
-		for (int i = pageData.getArrayOfWords().length - 1; i >= 0; i--) {
+		for (int i = pageData.getListOfWordsOnPage().size() - 1; i >= 0; i--) {
 			pageData.setIteratorI(i);
 			
 			if (listOfWordsOnPage.get(i).equalsIgnoreCase(wordToReplace)) { 
@@ -328,11 +339,8 @@ public class Paper {
 					String newWordToReplace = listOfWordsOnPage.get(i);		
 					int numberOfWordsAdded = 0; 			
 					int j = 0;
-										
 					setPageDataVariables(j, numberOfWordsAdded, newWordToReplace, pageData);
-					
 					addWordWithCollisionsToListOfWordsOnPage(pageData);
-
 					break;
 					
 				} else {

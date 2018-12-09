@@ -16,7 +16,7 @@ public class PencilTest {
 		pencilAtFullLength = pencil.getPencilLength();
 	}
 	
-	@Test
+	@Test  
 	public void can_pencil_send_text_to_paper() {
 		Assert.assertEquals("test", pencil.write("test"));
 	}
