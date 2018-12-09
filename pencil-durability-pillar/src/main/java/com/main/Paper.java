@@ -59,9 +59,12 @@ public class Paper {
 
 		newWordsOnPage = String.join(" ", newArray);
 		
+		List<String> newList = new ArrayList<String>();
 		for (String s : newArray) {
-			arrayOfWords.add(s);
+			newList.add(s);
 		}
+		
+		arrayOfWords = newList;
 				
 		wordsOnPage = newWordsOnPage;
 	}
@@ -77,23 +80,46 @@ public class Paper {
 		pageData.setNewWordToReplace(newWordToReplace += (" " + listOfWordsOnPage.get(i + (numberOfWordsAdded + 1))));
 	}
 
+//	public int findWhiteSpaceIndexToWriteOver() {
+//		char[] charactersOnPage = wordsOnPage.toCharArray();
+//		int indexCount = 0;
+//		
+//		for (int i = 0; i < charactersOnPage.length; i++) {
+//			if (charactersOnPage[i] == ' ' && charactersOnPage[i+1] == ' ') {
+//				indexCount++;
+//				break;
+//			} else if (charactersOnPage[i] == ' ') {
+//				indexCount++;
+//				continue;
+//			} else {
+//				continue;
+//			}
+//		}
+//		
+//		return indexCount;
+//	}
+	
 	public int findWhiteSpaceIndexToWriteOver() {
-		char[] charactersOnPage = wordsOnPage.toCharArray();
-		int indexCount = 0;
+		String[] wordsToSearchThrough = createArrayFromList(arrayOfWords);
+		int indexCount = wordsToSearchThrough.length - 1;
 		
-		for (int i = 0; i < charactersOnPage.length; i++) {
-			if (charactersOnPage[i] == ' ' && charactersOnPage[i+1] == ' ') {
-				indexCount++;
+		for (int i = wordsToSearchThrough.length- 1; i >= 0; i--) {
+			int numberOfCharactersInWord = 0;
+			for (int j = 0; j < wordsToSearchThrough[i].length(); j++) {
+				if (wordsToSearchThrough[i].charAt(j) != ' ') {
+					numberOfCharactersInWord++;
+				}
+			}
+			
+			if (numberOfCharactersInWord == 0) {
 				break;
-			} else if (charactersOnPage[i] == ' ') {
-				indexCount++;
-				continue;
 			} else {
-				continue;
+				indexCount--;
 			}
 		}
 		
 		return indexCount;
+		
 	}
 
 	public void writeOverErasedWhiteSpace(String wordToInsert, int whiteSpaceIndex) {
@@ -106,7 +132,7 @@ public class Paper {
 		
 		int iterator;
 
-		List<String> listOfWordsOnPage = pageData.getListOfWordsOnPage();
+		List<String> listOfWordsOnPage = arrayOfWords;
 		
 		addToWordToBeReplaced(wordToInsert, whiteSpaceIndex, pageData);
 		wordToBeReplaced = pageData.getWordToReplace();
@@ -160,7 +186,7 @@ public class Paper {
 					newWord += "@";
 				} else if (wordToInsert.length() > j){
 					newWord += wordToInsert.charAt(j);
-				} else {
+				} else if (wordToBeReplaced.charAt(j) != ' '){
 					newWord += wordToBeReplaced.charAt(j);
 				}
 				j++;
@@ -225,14 +251,15 @@ public class Paper {
 
 	private void addToWordToBeReplaced(String wordToInsert, int whiteSpaceIndexInList, PageData pageData) {
 		String wordToBeReplaced = pageData.getWordToReplace();
-		List<String> listOfWordsOnPage = pageData.getListOfWordsOnPage();
+		List<String> listOfWordsOnPage = arrayOfWords;
 		int iterator = pageData.getMiscIterator();
 		
 		while (true) {
 				
 			if (wordToInsert.length() >= wordToBeReplaced.length()) {
 				if (iterator == 0) {
-					wordToBeReplaced += listOfWordsOnPage.get(whiteSpaceIndexInList + iterator);
+					wordToBeReplaced += listOfWordsOnPage.get(whiteSpaceIndexInList + 1);
+					listOfWordsOnPage.remove(whiteSpaceIndexInList + 1);
 				} else {
 					wordToBeReplaced += " " + listOfWordsOnPage.get(whiteSpaceIndexInList + iterator);
 				}
@@ -242,6 +269,7 @@ public class Paper {
 			}
 		}
 		
+		pageData.setListOfWordsOnPage(listOfWordsOnPage);
 		pageData.setWordToReplace(wordToBeReplaced);
 		pageData.setMiscIterator(iterator);		
 	}
@@ -388,6 +416,10 @@ public class Paper {
 
 	private List<String> removeItemsFromList(List<String> listOfWordsOnPage, int iterator, int whiteSpaceIndex) {
 		for (int i = 0; i < iterator; i++) {
+			listOfWordsOnPage.remove(whiteSpaceIndex);
+		}
+		
+		if (iterator == 0) {
 			listOfWordsOnPage.remove(whiteSpaceIndex);
 		}
 		
