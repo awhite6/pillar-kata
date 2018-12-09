@@ -22,15 +22,15 @@ public class Paper {
 		String newWordsOnPage;
 		String[] newArray;
 		PageData pageData = new PageData();
+		List<String> listOfWordsOnPage;
 		
 		pageData.setNewOrErasedWord(newOrErasedWord);
 		pageData.setArrayOfWords(wordsOnPage.split(" "));
 		pageData.setWordToReplace(wordToReplace);
 		pageData = createNewListOfWordsForPage(pageData); 
 		
-		List<String> listOfWordsOnPage = pageData.getListOfWordsOnPage();
 	
-		listOfWordsOnPage = generateNewListOfWordsOnPage(pageData, listOfWordsOnPage);
+		listOfWordsOnPage = generateNewListOfWordsOnPage(pageData);
 		newArray = new String[listOfWordsOnPage.size()];
 		
 		for (int i = 0; i < newArray.length; i++) {
@@ -78,20 +78,20 @@ public class Paper {
 	}
 
 	public void writeOverErasedWhiteSpace(String wordToInsert, int whiteSpaceIndex) {
-		PageData data =  new PageData();
-		data.setArrayOfWords(wordsOnPage.split(" ")); 
-		data = createNewListOfWordsForPage(data);
+		PageData pageData =  new PageData();
+		pageData.setArrayOfWords(wordsOnPage.split(" ")); 
+		pageData = createNewListOfWordsForPage(pageData);
 
 		String newWord = "";
-		String wordToBeReplaced = data.getWordToReplace();
+		String wordToBeReplaced = pageData.getWordToReplace();
 
 		int iterator = 0;
 
-		List<String> listOfWordsOnPage = data.getListOfWordsOnPage();
+		List<String> listOfWordsOnPage = pageData.getListOfWordsOnPage();
 		
-		data = addToWordToBeReplaced(wordToInsert, wordToBeReplaced, iterator, whiteSpaceIndex, listOfWordsOnPage);
-		wordToBeReplaced = data.getWordToReplace();
-		iterator = data.getMiscIterator();
+		pageData = addToWordToBeReplaced(wordToInsert, wordToBeReplaced, iterator, whiteSpaceIndex, listOfWordsOnPage);
+		wordToBeReplaced = pageData.getWordToReplace();
+		iterator = pageData.getMiscIterator();
 		
 		newWord = generateNewWord(wordToBeReplaced, wordToInsert, iterator);
 
@@ -210,16 +210,14 @@ public class Paper {
 		return pageData;
 	}
 	
-	private PageData determineCharactersOfNewWord(PageData pageData) {
+	private void addToWordWithCollisions(PageData pageData) {
 		String newWordToReplace = pageData.getNewWordToReplace();
 		String newOrErasedWord = pageData.getNewOrErasedWord();
-		String constructedCollisionWord = pageData.getConstructedCollisionWord();
-		
+		String constructedCollisionWord = pageData.getConstructedCollisionWord();	
 		int i = pageData.getIteratorI();
 		int j = pageData.getIteratorJ();
 		int k = pageData.getIteratorK();
 		int numberOfWordsAdded = pageData.getNumberOfWordsAdded();
-		
 		List<String> listOfWordsOnPage = pageData.getListOfWordsOnPage();
 		
 		for (; j < newWordToReplace.length(); j++ ) {
@@ -235,15 +233,17 @@ public class Paper {
 			k++;
 		}
 		
-		pageData.setWordToReplace(constructedCollisionWord);
-		pageData.setConstructedCollisionWord(constructedCollisionWord);
 		pageData.setIteratorJ(j);
 		pageData.setIteratorK(k);
-		
-		return pageData;
+		pageData.setConstructedCollisionWord(constructedCollisionWord);
+		pageData.setWordToReplace(constructedCollisionWord);		
 	}
 
-	private String addCharactersToWord(String newOrErasedWord, String constructedCollisionWord, int j) {
+	private String addCharactersToWord(PageData pageData) {
+		String newOrErasedWord = pageData.getNewOrErasedWord();
+		String constructedCollisionWord = pageData.getConstructedCollisionWord();
+		int j = pageData.getIteratorJ();
+		
 		for (; j < newOrErasedWord.length(); j++) {
 			constructedCollisionWord += newOrErasedWord.charAt(j);
 		}
@@ -251,46 +251,21 @@ public class Paper {
 		return constructedCollisionWord;
 	}
 
-	private String generateNewWordForReplacement(int numberOfWordsAdded, List<String> listOfWordsOnPage, PageData pageData) {
-		String wordWithCharacterCollisions = pageData.getConstructedCollisionWord();
-		String newOrErasedWord = pageData.getNewOrErasedWord();
-		String newWordToReplace = pageData.getNewWordToReplace();
-		
-		int i = pageData.getIteratorI();
-		int j = pageData.getIteratorJ();
-		
-		
-		
+	private String generateNewWordForReplacement(int numberOfWordsAdded, PageData pageData) {		
 		while (numberOfWordsAdded > -1) {			
 			int k = -1;
 			pageData.setIteratorK(k);
 			
 			setupToAddToNewWordOnPage(pageData);
-//			if (numberOfWordsAdded == 0) {
-//				pageData = startCreatingNewReplacementWord(pageData);
-//
-//			} else {					
-//				pageData = determineCharactersOfNewWord(pageData);
-			wordWithCharacterCollisions = pageData.getWordToReplace();
-			j = pageData.getIteratorJ();
-			k = pageData.getIteratorK();
-//
-//			}
-			
-			if (newOrErasedWord.length() > newWordToReplace.length()) {
+
+			if (isNewWordLongerThanErasedWord(pageData) && isCurrentWordTheLastInTheList(pageData)) {		
+				pageData.setConstructedCollisionWord(addCharactersToWord(pageData));
+				break;
 				
-				if (isCurrentWordTheLastInTheList(pageData)) {
-					wordWithCharacterCollisions = addCharactersToWord(newOrErasedWord, wordWithCharacterCollisions, j);
-					pageData.setConstructedCollisionWord(wordWithCharacterCollisions);
-					break;
-					
-				} else {
-					updateNewWordToReplace(pageData);
-					newWordToReplace = pageData.getNewWordToReplace();
-					numberOfWordsAdded = pageData.getNumberOfWordsAdded();
-					continue;
-					
-				}
+			} else if (isNewWordLongerThanErasedWord(pageData)){
+				updateNewWordToReplace(pageData);
+
+				continue;
 				
 			} else {
 				break;
@@ -298,22 +273,28 @@ public class Paper {
 			}
 		}
 		
-		return wordWithCharacterCollisions;
+		return pageData.getConstructedCollisionWord();
+	}
+
+	private boolean isNewWordLongerThanErasedWord(PageData pageData) {
+		String newOrErasedWord = pageData.getNewOrErasedWord();
+		String newWordToReplace = pageData.getNewWordToReplace();
+		
+		if (newOrErasedWord.length() > newWordToReplace.length()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	private PageData setupToAddToNewWordOnPage(PageData pageData) {
 		int numberOfWordsAdded = pageData.getNumberOfWordsAdded();
-//		String wordWithCharacterCollisions = pageData.getConstructedCollisionWord();
 		
 		if (numberOfWordsAdded == 0) {
 			pageData = startCreatingNewReplacementWord(pageData);
 
 		} else {					
-			pageData = determineCharactersOfNewWord(pageData);
-//			wordWithCharacterCollisions = pageData.getWordToReplace();
-//			j = pageData.getIteratorJ();
-//			k = pageData.getIteratorK();
-
+			addToWordWithCollisions(pageData);
 		}		
 		
 		return pageData;
@@ -339,10 +320,12 @@ public class Paper {
 		return pageData;
 	}
 
-	private List<String> generateNewListOfWordsOnPage(PageData pageData, List<String> listOfWordsOnPage) {
+	private List<String> generateNewListOfWordsOnPage(PageData pageData) {
 		String constructedCollisionWord = pageData.getConstructedCollisionWord();
 		String wordToReplace = pageData.getWordToReplace();
 		String newOrErasedWord = pageData.getNewOrErasedWord();
+		
+		List<String> listOfWordsOnPage = pageData.getListOfWordsOnPage();
 		
 		for (int i = pageData.getArrayOfWords().length - 1; i >= 0; i--) {
 			pageData.setIteratorI(i);
@@ -356,15 +339,15 @@ public class Paper {
 										
 					setPageDataVariables(j, numberOfWordsAdded, newWordToReplace, pageData);
 	
-					constructedCollisionWord = generateNewWordForReplacement(numberOfWordsAdded, listOfWordsOnPage, pageData);
+					constructedCollisionWord = generateNewWordForReplacement(numberOfWordsAdded, pageData);
 					numberOfWordsAdded = pageData.getNumberOfWordsAdded();
 					
 					addNewWordToList(listOfWordsOnPage, constructedCollisionWord, i);
 					
-					//listOfWordsOnPage = removeItemsFromList(listOfWordsOnPage, numberOfWordsAdded, i + 1);
 					for (int y = 0; y <= numberOfWordsAdded; y++) {
 						listOfWordsOnPage.remove(i+1);
 					}
+					
 					break;
 					
 				} else {
