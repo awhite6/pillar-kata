@@ -71,7 +71,7 @@ public class PaperTest {
 		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("this"), "this");
 		paper.writeOverErasedWhiteSpace("dog", paper.findWhiteSpaceIndexToWriteOver());
 		Assert.assertEquals("test dog is test a thing", paper.getWordsOnPage());
-	}
+	} 
 	
 	
 	@Test

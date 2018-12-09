@@ -14,92 +14,49 @@ public class Paper {
 		return wordsOnPage; 
 	}
 	 
-
 	public void writeWordsOnPaper(String textFromPencil) {
 		wordsOnPage += textFromPencil;
 	}
 	
-	
 	public void replaceWordWithNewOrErasedWord(String newOrErasedWord, String wordToReplace) {
 		String newWordsOnPage;
-		String[] arrayOfWords = wordsOnPage.split(" ");
 		String[] newArray;
-		List<String> listOfWordsOnPage = new ArrayList<String>();
-		for (String s : arrayOfWords) {
-			listOfWordsOnPage.add(s);
-		}
+		PageData pageData = new PageData();
 		
-		for (int i = arrayOfWords.length - 1; i >= 0; i--) {
-			
-			if (listOfWordsOnPage.get(i).equalsIgnoreCase(wordToReplace)) { 
-				
-				if (wordToReplace.length() < newOrErasedWord.length()) {
-					String newWordToReplace = listOfWordsOnPage.get(i);
-					String constructedCollisionWord = "";
-					int numberOfWordsAdded = 0;
-					int j = 0;
-					
-					while (numberOfWordsAdded > -1) {
-						int k = -1;
-
-						if (numberOfWordsAdded == 0) {
-							for (; j < listOfWordsOnPage.get(i).length(); j++) {
-								if (newWordToReplace.charAt(j) == listOfWordsOnPage.get(i).charAt(j)) {
-									constructedCollisionWord += newOrErasedWord.charAt(j);
-								}
-							}
-						} else {			
-							for (; j < newWordToReplace.length(); j++ ) {
-								
-								if (k >= 0 && newOrErasedWord.length() > j && (listOfWordsOnPage.get(i+numberOfWordsAdded).charAt(k) != ' ')) {
-									constructedCollisionWord += "@";
-			
-								} else if (newOrErasedWord.length() > j) {
-									constructedCollisionWord += newOrErasedWord.charAt(j);
-								} else {
-									constructedCollisionWord += newWordToReplace.charAt(j);
-								}
-								k++;
-							}	
-						}
-						if (newOrErasedWord.length() > newWordToReplace.length()) {
-							if (listOfWordsOnPage.get(i+numberOfWordsAdded) == listOfWordsOnPage.get(listOfWordsOnPage.size()-1)) {
-								for (; j < newOrErasedWord.length(); j++) {
-									constructedCollisionWord += newOrErasedWord.charAt(j);
-								}
-								break;
-							} else {
-								numberOfWordsAdded++;
-								newWordToReplace += (" " + listOfWordsOnPage.get(i + numberOfWordsAdded));
-								continue;
-							}
-						} else {
-							break;
-						}
-					}
-					
-					listOfWordsOnPage.add(i, constructedCollisionWord);
-					for (int y = 0; y <= numberOfWordsAdded; y++) {
-						listOfWordsOnPage.remove(i+1);
-					}
-					break;
-					
-				} else {
-					listOfWordsOnPage.add(i, newOrErasedWord);
-					listOfWordsOnPage.remove(i + 1);
-					break;
-				}
-			}
-		}
-
+		pageData.setNewOrErasedWord(newOrErasedWord);
+		pageData.setArrayOfWords(wordsOnPage.split(" "));
+		pageData.setWordToReplace(wordToReplace);
+		pageData = createNewListOfWordsForPage(pageData); 
+		
+		List<String> listOfWordsOnPage = pageData.getListOfWordsOnPage();
+	
+		listOfWordsOnPage = generateNewListOfWordsOnPage(pageData, listOfWordsOnPage);
 		newArray = new String[listOfWordsOnPage.size()];
 		
 		for (int i = 0; i < newArray.length; i++) {
 			newArray[i] = listOfWordsOnPage.get(i);
 		}
-		
+			
 		newWordsOnPage = String.join(" ", newArray);
 		wordsOnPage = newWordsOnPage;
+	}
+
+	private void setPageDataVariables(int j, int numberOfWordsAdded, String newWordToReplace, PageData pageData) {
+		pageData.setNewWordToReplace(newWordToReplace);
+		pageData.setNumberOfWordsAdded(numberOfWordsAdded);		
+		pageData.setIteratorJ(j);
+	}
+	
+	private void updateNewWordToReplace(PageData pageData) {
+		int numberOfWordsAdded = pageData.getNumberOfWordsAdded();
+		int i = pageData.getIteratorI();
+		String newWordToReplace = pageData.getNewWordToReplace();
+		List<String> listOfWordsOnPage = pageData.getListOfWordsOnPage();
+		
+		pageData.setNumberOfWordsAdded(numberOfWordsAdded + 1);
+		
+		newWordToReplace += (" " + listOfWordsOnPage.get(i + (numberOfWordsAdded + 1)));
+		pageData.setNewWordToReplace(newWordToReplace);
 	}
 
 	public int findWhiteSpaceIndexToWriteOver() {
@@ -122,22 +79,23 @@ public class Paper {
 
 	public void writeOverErasedWhiteSpace(String wordToInsert, int whiteSpaceIndex) {
 		PageData data =  new PageData();
-		String[] wordsOnPageArray = wordsOnPage.split(" ");
+		data.setArrayOfWords(wordsOnPage.split(" ")); 
+		data = createNewListOfWordsForPage(data);
+
 		String newWord = "";
+		String wordToBeReplaced = data.getWordToReplace();
 
 		int iterator = 0;
 
-		data = createNewListOfWordsForPage(wordsOnPageArray);
 		List<String> listOfWordsOnPage = data.getListOfWordsOnPage();
-		String wordToBeReplaced = data.getWordToReplace();
 		
 		data = addToWordToBeReplaced(wordToInsert, wordToBeReplaced, iterator, whiteSpaceIndex, listOfWordsOnPage);
 		wordToBeReplaced = data.getWordToReplace();
-		iterator = data.getIterator();
+		iterator = data.getMiscIterator();
 		
 		newWord = generateNewWord(wordToBeReplaced, wordToInsert, iterator);
 
-		removeWhiteSpaceFromList(listOfWordsOnPage, iterator, whiteSpaceIndex);
+		removeItemsFromList(listOfWordsOnPage, iterator, whiteSpaceIndex);
 
 		addNewWordToList(listOfWordsOnPage, newWord, whiteSpaceIndex);
 		
@@ -150,26 +108,28 @@ public class Paper {
 		return String.join(" ", listOfWordsOnPage);
 	}
 	
-	private PageData createNewListOfWordsForPage(String words[]) {
-		PageData data = new PageData();
-		String wordToBeReplaced = data.getWordToReplace();
+	private PageData createNewListOfWordsForPage(PageData pageData) {
+
+		String[] words = pageData.getArrayOfWords();
+		String wordToBeReplaced = pageData.getWordToReplace();
 		List<String> listOfWords = new ArrayList<String>();
-		
-		for (int i = 0; i < words.length; i++) {
-			if (words[i].equals("")) {
-//				whiteSpaceCount++;
-				wordToBeReplaced += " ";
 				
+		for (int i = 0; i < words.length; i++) {
+			
+			if (words[i].equals("")) {
+				wordToBeReplaced += " ";
 				continue;
+				
 			} else {
 				listOfWords.add(words[i]);
+				
 			}
 		}
 		
-		data.setListOfWordsOnPage(listOfWords);
-		data.setWordToReplace(wordToBeReplaced);
+		pageData.setListOfWordsOnPage(listOfWords);
+		pageData.setWordToReplace(wordToBeReplaced);
 		
-		return data;
+		return pageData;
 		
 	}
 	
@@ -190,7 +150,7 @@ public class Paper {
 		}
 		
 		data.setWordToReplace(wordToBeReplaced);
-		data.setIterator(iterator);
+		data.setMiscIterator(iterator);
 		return data;
 		
 	}
@@ -220,14 +180,209 @@ public class Paper {
 		return newWord;
 	}
 
-	private void removeWhiteSpaceFromList(List<String> listOfWordsOnPage, int iterator, int whiteSpaceIndex) {
+	private List<String> removeItemsFromList(List<String> listOfWordsOnPage, int iterator, int whiteSpaceIndex) {
 		for (int i = 0; i < iterator; i++) {
 			listOfWordsOnPage.remove(whiteSpaceIndex);
 		}
+		
+		return listOfWordsOnPage;
 	}
 
 	private void addNewWordToList(List<String> listOfWordsOnPage, String newWord, int whiteSpaceIndex) {
 		listOfWordsOnPage.add(whiteSpaceIndex, newWord);
 	}
 	
+	private PageData replaceEmptySpaceWithWord(PageData pageData, String newWordToReplace, String newOrErasedWord) {
+		List<String> listOfWordsOnPage = pageData.getListOfWordsOnPage();
+		String constructedCollisionWord = pageData.getConstructedCollisionWord();
+
+		int i = pageData.getIteratorI();
+		int j = pageData.getIteratorJ();
+		
+		for (; j < listOfWordsOnPage.get(i).length(); j++) {
+			if (newWordToReplace.charAt(j) == listOfWordsOnPage.get(i).charAt(j)) {
+				constructedCollisionWord += newOrErasedWord.charAt(j);
+			}
+		}
+		
+		pageData.setIteratorJ(j);
+		pageData.setConstructedCollisionWord(constructedCollisionWord);
+		return pageData;
+	}
+	
+	private PageData determineCharactersOfNewWord(PageData pageData) {
+		String newWordToReplace = pageData.getNewWordToReplace();
+		String newOrErasedWord = pageData.getNewOrErasedWord();
+		String constructedCollisionWord = pageData.getConstructedCollisionWord();
+		
+		int i = pageData.getIteratorI();
+		int j = pageData.getIteratorJ();
+		int k = pageData.getIteratorK();
+		int numberOfWordsAdded = pageData.getNumberOfWordsAdded();
+		
+		List<String> listOfWordsOnPage = pageData.getListOfWordsOnPage();
+		
+		for (; j < newWordToReplace.length(); j++ ) {
+			
+			if (k >= 0 && newOrErasedWord.length() > j && (listOfWordsOnPage.get(i+numberOfWordsAdded).charAt(k) != ' ')) {
+				constructedCollisionWord += "@";
+
+			} else if (newOrErasedWord.length() > j) {
+				constructedCollisionWord += newOrErasedWord.charAt(j);
+			} else {
+				constructedCollisionWord += newWordToReplace.charAt(j);
+			}
+			k++;
+		}
+		
+		pageData.setWordToReplace(constructedCollisionWord);
+		pageData.setConstructedCollisionWord(constructedCollisionWord);
+		pageData.setIteratorJ(j);
+		pageData.setIteratorK(k);
+		
+		return pageData;
+	}
+
+	private String addCharactersToWord(String newOrErasedWord, String constructedCollisionWord, int j) {
+		for (; j < newOrErasedWord.length(); j++) {
+			constructedCollisionWord += newOrErasedWord.charAt(j);
+		}
+
+		return constructedCollisionWord;
+	}
+
+	private String generateNewWordForReplacement(int numberOfWordsAdded, List<String> listOfWordsOnPage, PageData pageData) {
+		String wordWithCharacterCollisions = pageData.getConstructedCollisionWord();
+		String newOrErasedWord = pageData.getNewOrErasedWord();
+		String newWordToReplace = pageData.getNewWordToReplace();
+		
+		int i = pageData.getIteratorI();
+		int j = pageData.getIteratorJ();
+		
+		
+		
+		while (numberOfWordsAdded > -1) {			
+			int k = -1;
+			pageData.setIteratorK(k);
+			
+			setupToAddToNewWordOnPage(pageData);
+//			if (numberOfWordsAdded == 0) {
+//				pageData = startCreatingNewReplacementWord(pageData);
+//
+//			} else {					
+//				pageData = determineCharactersOfNewWord(pageData);
+			wordWithCharacterCollisions = pageData.getWordToReplace();
+			j = pageData.getIteratorJ();
+			k = pageData.getIteratorK();
+//
+//			}
+			
+			if (newOrErasedWord.length() > newWordToReplace.length()) {
+				
+				if (isCurrentWordTheLastInTheList(pageData)) {
+					wordWithCharacterCollisions = addCharactersToWord(newOrErasedWord, wordWithCharacterCollisions, j);
+					pageData.setConstructedCollisionWord(wordWithCharacterCollisions);
+					break;
+					
+				} else {
+					updateNewWordToReplace(pageData);
+					newWordToReplace = pageData.getNewWordToReplace();
+					numberOfWordsAdded = pageData.getNumberOfWordsAdded();
+					continue;
+					
+				}
+				
+			} else {
+				break;
+				
+			}
+		}
+		
+		return wordWithCharacterCollisions;
+	}
+
+	private PageData setupToAddToNewWordOnPage(PageData pageData) {
+		int numberOfWordsAdded = pageData.getNumberOfWordsAdded();
+//		String wordWithCharacterCollisions = pageData.getConstructedCollisionWord();
+		
+		if (numberOfWordsAdded == 0) {
+			pageData = startCreatingNewReplacementWord(pageData);
+
+		} else {					
+			pageData = determineCharactersOfNewWord(pageData);
+//			wordWithCharacterCollisions = pageData.getWordToReplace();
+//			j = pageData.getIteratorJ();
+//			k = pageData.getIteratorK();
+
+		}		
+		
+		return pageData;
+	}
+
+	private boolean isCurrentWordTheLastInTheList(PageData pageData) {
+		List<String> listOfWordsOnPage = pageData.getListOfWordsOnPage();
+		int numberOfWordsAdded = pageData.getNumberOfWordsAdded();
+		int i = pageData.getIteratorI();
+		
+		if (listOfWordsOnPage.get(i+numberOfWordsAdded) == listOfWordsOnPage.get(listOfWordsOnPage.size()-1)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private PageData startCreatingNewReplacementWord(PageData pageData) {
+		String newWordToReplace = pageData.getNewWordToReplace();
+		String newOrErasedWord = pageData.getNewOrErasedWord();
+		pageData = replaceEmptySpaceWithWord(pageData, newWordToReplace, newOrErasedWord);
+
+		return pageData;
+	}
+
+	private List<String> generateNewListOfWordsOnPage(PageData pageData, List<String> listOfWordsOnPage) {
+		String constructedCollisionWord = pageData.getConstructedCollisionWord();
+		String wordToReplace = pageData.getWordToReplace();
+		String newOrErasedWord = pageData.getNewOrErasedWord();
+		
+		for (int i = pageData.getArrayOfWords().length - 1; i >= 0; i--) {
+			pageData.setIteratorI(i);
+			
+			if (listOfWordsOnPage.get(i).equalsIgnoreCase(wordToReplace)) { 
+				
+				if (wordToReplace.length() < newOrErasedWord.length()) {
+					String newWordToReplace = listOfWordsOnPage.get(i);		
+					int numberOfWordsAdded = 0; 			
+					int j = 0;
+										
+					setPageDataVariables(j, numberOfWordsAdded, newWordToReplace, pageData);
+	
+					constructedCollisionWord = generateNewWordForReplacement(numberOfWordsAdded, listOfWordsOnPage, pageData);
+					numberOfWordsAdded = pageData.getNumberOfWordsAdded();
+					
+					addNewWordToList(listOfWordsOnPage, constructedCollisionWord, i);
+					
+					//listOfWordsOnPage = removeItemsFromList(listOfWordsOnPage, numberOfWordsAdded, i + 1);
+					for (int y = 0; y <= numberOfWordsAdded; y++) {
+						listOfWordsOnPage.remove(i+1);
+					}
+					break;
+					
+				} else {
+					updateListOfWordsOnPage(pageData);
+					break;
+				}
+			}
+		}
+		
+		return listOfWordsOnPage;
+	}
+	
+	private void updateListOfWordsOnPage(PageData pageData) {
+		List<String> listOfWordsOnPage = pageData.getListOfWordsOnPage();
+		String newOrErasedWord = pageData.getNewOrErasedWord();
+		int i = pageData.getIteratorI();
+		
+		addNewWordToList(listOfWordsOnPage, newOrErasedWord, i);
+		removeItemsFromList(listOfWordsOnPage, 1, i + 1);
+	}
 }
