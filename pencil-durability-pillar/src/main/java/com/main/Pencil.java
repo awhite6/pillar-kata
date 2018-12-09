@@ -19,7 +19,7 @@ public class Pencil {
 			
 			if (canPencilWrite()) {
 				
-				if (isCharacterWhiteSpace(currentCharacter)) {
+				if (isCharacterWhiteSpace(currentCharacter)) { 
 					sendToPaper += currentCharacter;
 					
 				} else if (isCharacterUpperCase(currentCharacter)) {
@@ -31,6 +31,8 @@ public class Pencil {
 					currentPencilHealth--;
 					
 				}
+			} else {
+				sendToPaper += " ";
 			}
 		}
 

@@ -30,13 +30,13 @@ public class PencilTest {
 	@Test 
 	public void testing_when_pencil_is_writing_and_runs_out_of_health() {
 		pencil.setCurrentPencilHealth(3);
-		Assert.assertEquals("tes", pencil.write("test"));
+		Assert.assertEquals("tes ", pencil.write("test"));
 	}
 	
 	@Test
 	public void test_pencil_cant_write_with_zero_health() {
 		pencil.setCurrentPencilHealth(0);
-		Assert.assertEquals("", pencil.write("test"));
+		Assert.assertEquals("    ", pencil.write("test"));
 	}
 	
 	@Test
