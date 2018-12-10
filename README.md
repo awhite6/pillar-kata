@@ -3,7 +3,7 @@
 To build the program... 
     1. download the project folder
     2. cd into the directory (inside the project folder) that has the pom.xml file
-    3. run the command mvn build.
+    3. run the command mvn install.
        - this should create a target directory, which should have a jar file inside.
        
 To run the program...
