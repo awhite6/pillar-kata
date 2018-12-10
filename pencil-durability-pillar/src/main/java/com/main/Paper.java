@@ -140,7 +140,7 @@ public class Paper {
 		
 		newWord = generateNewWord(wordToBeReplaced, wordToInsert, iterator);
 
-		removeItemsFromList(listOfWordsOnPage, iterator, whiteSpaceIndex);
+		removeItemsFromList(listOfWordsOnPage, iterator, whiteSpaceIndex);  
 
 		addNewWord(listOfWordsOnPage, newWord, whiteSpaceIndex);
 		
@@ -265,7 +265,12 @@ public class Paper {
 						listOfWordsOnPage.remove(whiteSpaceIndexInList + 1);
 					}
 				} else {
-					wordToBeReplaced += " " + listOfWordsOnPage.get(whiteSpaceIndexInList + iterator);
+					if (whiteSpaceIndexInList + iterator >= listOfWordsOnPage.size()) {
+						wordToBeReplaced += " ";
+					} else {
+						wordToBeReplaced += " " + listOfWordsOnPage.get(whiteSpaceIndexInList + iterator);
+
+					}
 				}
 				iterator++;
 			} else {
@@ -420,7 +425,11 @@ public class Paper {
 
 	private List<String> removeItemsFromList(List<String> listOfWordsOnPage, int iterator, int whiteSpaceIndex) {
 		for (int i = 0; i < iterator; i++) {
-			listOfWordsOnPage.remove(whiteSpaceIndex);
+			if (whiteSpaceIndex >= listOfWordsOnPage.size()) {
+				continue;
+			} else {
+				listOfWordsOnPage.remove(whiteSpaceIndex);
+			}
 		}
 		
 		if (iterator == 0) {

@@ -108,7 +108,7 @@ public class PaperTest {
 	}
 	
 	@Test 
-	public void can_erase_all_words_from_paper_and_write_over_white_space() {
+	public void can_erase_all_words_from_paper_and_write_over_white_space_with_different_length_words() {
 		paper.writeWordsOnPaper(testText);
 		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("test"), "test");
 		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("this"), "this");
@@ -117,16 +117,36 @@ public class PaperTest {
 		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("a"), "a");
 		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("thing"), "thing");
 		
-		paper.writeOverErasedWhiteSpace("thing", paper.findWhiteSpaceIndexToWriteOver());
-		paper.writeOverErasedWhiteSpace("a", paper.findWhiteSpaceIndexToWriteOver());
-		paper.writeOverErasedWhiteSpace("test", paper.findWhiteSpaceIndexToWriteOver());
+		paper.writeOverErasedWhiteSpace("my", paper.findWhiteSpaceIndexToWriteOver());
+		paper.writeOverErasedWhiteSpace("heart", paper.findWhiteSpaceIndexToWriteOver());
 		paper.writeOverErasedWhiteSpace("is", paper.findWhiteSpaceIndexToWriteOver());
-		paper.writeOverErasedWhiteSpace("this", paper.findWhiteSpaceIndexToWriteOver());
-		paper.writeOverErasedWhiteSpace("test", paper.findWhiteSpaceIndexToWriteOver());
+		paper.writeOverErasedWhiteSpace("made", paper.findWhiteSpaceIndexToWriteOver());
+		paper.writeOverErasedWhiteSpace("of", paper.findWhiteSpaceIndexToWriteOver());
+		paper.writeOverErasedWhiteSpace("gravy", paper.findWhiteSpaceIndexToWriteOver());
 
 
+		Assert.assertEquals("gravyof mad@s he@@t", paper.getWordsOnPage());
+	}
+	
+	@Test 
+	public void can_erase_all_words_from_paper_and_write_over_white_space_with_same_length_words() {
+		paper.writeWordsOnPaper(testText);
+		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("test"), "test");
+		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("this"), "this");
+		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("is"), "is");
+		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("test"), "test");
+		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("a"), "a");
+		paper.replaceWordWithNewOrErasedWord(eraser.eraseWord("thing"), "thing");
 		
-		Assert.assertEquals("test this is test a thing", paper.getWordsOnPage());
+		paper.writeOverErasedWhiteSpace("candy", paper.findWhiteSpaceIndexToWriteOver());
+		paper.writeOverErasedWhiteSpace("t", paper.findWhiteSpaceIndexToWriteOver());
+		paper.writeOverErasedWhiteSpace("doug", paper.findWhiteSpaceIndexToWriteOver());
+		paper.writeOverErasedWhiteSpace("to", paper.findWhiteSpaceIndexToWriteOver());
+		paper.writeOverErasedWhiteSpace("flan", paper.findWhiteSpaceIndexToWriteOver());
+		paper.writeOverErasedWhiteSpace("pete", paper.findWhiteSpaceIndexToWriteOver());
+
+
+		Assert.assertEquals("pete flan to doug t candy", paper.getWordsOnPage());
 
 
 	}
