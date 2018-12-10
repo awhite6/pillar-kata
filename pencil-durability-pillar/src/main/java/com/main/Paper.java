@@ -124,7 +124,7 @@ public class Paper {
 
 	public void writeOverErasedWhiteSpace(String wordToInsert, int whiteSpaceIndex) {
 		PageData pageData =  new PageData();
-		pageData.setArrayOfWords(wordsOnPage.split(" ")); 
+		pageData.setArrayOfWords(arrayOfWords); 
 		initializeListOfWordsForPage(pageData);
 
 		String newWord = "";
@@ -250,7 +250,7 @@ public class Paper {
 	}
 
 	private void addToWordToBeReplaced(String wordToInsert, int whiteSpaceIndexInList, PageData pageData) {
-		String wordToBeReplaced = pageData.getWordToReplace();
+		String wordToBeReplaced = pageData.getArrayOfWords()[whiteSpaceIndexInList];
 		List<String> listOfWordsOnPage = arrayOfWords;
 		int iterator = pageData.getMiscIterator();
 		
@@ -258,7 +258,7 @@ public class Paper {
 				
 			if (wordToInsert.length() >= wordToBeReplaced.length()) {
 				if (iterator == 0) {
-					wordToBeReplaced += listOfWordsOnPage.get(whiteSpaceIndexInList + 1);
+					wordToBeReplaced += " " + listOfWordsOnPage.get(whiteSpaceIndexInList + 1);
 					listOfWordsOnPage.remove(whiteSpaceIndexInList + 1);
 				} else {
 					wordToBeReplaced += " " + listOfWordsOnPage.get(whiteSpaceIndexInList + iterator);
