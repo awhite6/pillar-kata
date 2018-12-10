@@ -126,7 +126,7 @@ public class PaperTest {
 
 
 		
-		Assert.assertEquals("", paper.getWordsOnPage());
+		Assert.assertEquals("test this is test a thing", paper.getWordsOnPage());
 
 
 	}

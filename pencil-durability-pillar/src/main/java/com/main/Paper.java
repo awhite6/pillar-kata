@@ -10,7 +10,7 @@ public class Paper {
 	public Paper() {
 		wordsOnPage = "";
 	}
-	
+	  
 	public String getWordsOnPage() {
 		return wordsOnPage; 
 	}
@@ -256,10 +256,14 @@ public class Paper {
 		
 		while (true) {
 				
-			if (wordToInsert.length() >= wordToBeReplaced.length()) {
+			if (wordToInsert.length() > wordToBeReplaced.length()) {
 				if (iterator == 0) {
-					wordToBeReplaced += " " + listOfWordsOnPage.get(whiteSpaceIndexInList + 1);
-					listOfWordsOnPage.remove(whiteSpaceIndexInList + 1);
+					if (whiteSpaceIndexInList + 1 == listOfWordsOnPage.size()) {
+						wordToBeReplaced += " ";
+					} else {  
+						wordToBeReplaced += " " + listOfWordsOnPage.get(whiteSpaceIndexInList + 1);
+						listOfWordsOnPage.remove(whiteSpaceIndexInList + 1);
+					}
 				} else {
 					wordToBeReplaced += " " + listOfWordsOnPage.get(whiteSpaceIndexInList + iterator);
 				}
